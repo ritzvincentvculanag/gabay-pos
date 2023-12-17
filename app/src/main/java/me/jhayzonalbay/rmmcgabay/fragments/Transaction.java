@@ -11,14 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import me.jhayzonalbay.rmmcgabay.R;
+import me.jhayzonalbay.rmmcgabay.actions.BarcodeScanner;
 import me.jhayzonalbay.rmmcgabay.models.adapter.ProductAdapter;
 import me.jhayzonalbay.rmmcgabay.repositories.ProductRepository;
+import me.jhayzonalbay.rmmcgabay.utils.Action;
+import me.jhayzonalbay.rmmcgabay.utils.Executable;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
 
-public class Transaction extends Fragment implements Widget {
+public class Transaction extends Fragment implements Widget, Action {
 
     private View view;
 
@@ -27,8 +31,13 @@ public class Transaction extends Fragment implements Widget {
 
     private Button cart;
 
+    private FloatingActionButton scan;
+
     private RecyclerView products;
     private ProductAdapter productAdapter;
+
+    // Dependencies
+    private Executable scanner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +45,7 @@ public class Transaction extends Fragment implements Widget {
         view = inflater.inflate(R.layout.fragment_transaction, container, false);
 
         initWidgets();
+        initActions();
 
         return view;
     }
@@ -46,10 +56,19 @@ public class Transaction extends Fragment implements Widget {
 
         cart = view.findViewById(R.id.btn_trans_cart);
 
+        scan = view.findViewById(R.id.fab_trans_scan);
+
         productAdapter = new ProductAdapter(new ProductRepository());
 
         products = view.findViewById(R.id.rv_trans_products);
         products.setAdapter(productAdapter);
         products.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    public void initActions() {
+        scanner = new BarcodeScanner(getActivity(), this);
+
+        scan.setOnClickListener(e -> scanner.execute());
     }
 }
