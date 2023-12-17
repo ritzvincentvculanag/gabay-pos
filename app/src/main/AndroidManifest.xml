@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RmmcGabay"
         tools:targetApi="31">
         <activity
+            android:name=".views.Hero"
+            android:exported="false" />
+        <activity
             android:name=".views.Login"
             android:exported="true">
             <intent-filter>
