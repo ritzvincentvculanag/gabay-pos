@@ -1,14 +1,16 @@
-package me.jhayzonalbay.rmmcgabay;
+package me.jhayzonalbay.rmmcgabay.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import me.jhayzonalbay.rmmcgabay.R;
+
+public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
     }
 }
