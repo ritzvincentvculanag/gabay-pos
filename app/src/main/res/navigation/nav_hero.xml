@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/dashboard"
-        android:name="me.jhayzonalbay.rmmcgabay.fragments.Dashboard"
+        android:name="me.jhayzonalbay.rmmcgabay.views.hero.Dashboard"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/transaction"
-        android:name="me.jhayzonalbay.rmmcgabay.fragments.Transaction"
+        android:name="me.jhayzonalbay.rmmcgabay.views.hero.Transaction"
         android:label="fragment_transaction"
         tools:layout="@layout/fragment_transaction" />
     <fragment
         android:id="@+id/profile"
-        android:name="me.jhayzonalbay.rmmcgabay.fragments.Profile"
+        android:name="me.jhayzonalbay.rmmcgabay.views.hero.Profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

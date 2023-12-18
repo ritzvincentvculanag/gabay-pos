@@ -1,4 +1,4 @@
-package me.jhayzonalbay.rmmcgabay.fragments;
+package me.jhayzonalbay.rmmcgabay.views.hero;
 
 import android.os.Bundle;
 
