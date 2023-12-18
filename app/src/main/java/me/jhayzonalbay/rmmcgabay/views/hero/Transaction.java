@@ -130,6 +130,7 @@ public class Transaction extends Fragment implements Widget, Action, ProductCart
             return;
         }
 
+        invoice.setSubTotal(invoice.getSubTotal() + productToAdd.getPrice() * productToAdd.getQuantity());
         invoice.addProduct(productToAdd);
         viewCart.setText(String.valueOf(invoice.getProducts().size()));
     }

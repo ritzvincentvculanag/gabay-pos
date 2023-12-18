@@ -90,9 +90,7 @@ public class Invoice implements Parcelable {
     }
 
     public Double getSubTotal() {
-        return products.stream()
-                .map(Product::getPrice)
-                .reduce(0d, Double::sum);
+        return subTotal;
     }
 
     public void setSubTotal(Double subTotal) {

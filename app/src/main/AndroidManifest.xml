@@ -13,9 +13,12 @@
         android:theme="@style/Theme.RmmcGabay"
         tools:targetApi="31">
         <activity
-            android:name=".views.Checkout"
-            android:label="Checkout"
+            android:name=".views.Payment"
             android:exported="false" />
+        <activity
+            android:name=".views.Checkout"
+            android:exported="false"
+            android:label="Checkout" />
         <activity
             android:name=".views.edit.EditUser"
             android:exported="false"
@@ -32,17 +35,17 @@
             android:label="Manage product"
             android:parentActivityName=".views.Manage" />
         <activity
-            android:label="Manage System"
             android:name=".views.Manage"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Manage System" />
         <activity
-            android:label="Dashboard"
             android:name=".views.Hero"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Dashboard" />
         <activity
-            android:label="Gabay Store"
             android:name=".views.Login"
-            android:exported="true">
+            android:exported="true"
+            android:label="Gabay Store">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

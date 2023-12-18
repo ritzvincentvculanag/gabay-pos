@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -45,6 +46,7 @@ public class Checkout extends AppCompatActivity implements Widget, Item {
     @Override
     public void delete(int position) {
         Product product = products.get(position);
+        invoice.setSubTotal(invoice.getSubTotal() - product.getPrice());
 
         MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(this);
 
@@ -61,6 +63,21 @@ public class Checkout extends AppCompatActivity implements Widget, Item {
     @Override
     public void initWidgets() {
         checkout = findViewById(R.id.fab_checkout_cart);
+        checkout.setOnClickListener(e -> {
+            if (products.size() == 0) {
+                return;
+            }
+
+            double subTotal = 0d;
+            for (Product product : products) {
+                subTotal += product.getPrice() * product.getQuantity();
+            }
+            invoice.setSubTotal(subTotal);
+
+            Intent intent = new Intent(this, Payment.class);
+            intent.putExtra("EXT_INVOICE", invoice);
+            startActivity(intent);
+        });
 
         invoice = getIntent().getExtras().getParcelable("EXT_INVOICE");
         products = invoice.getProducts();
