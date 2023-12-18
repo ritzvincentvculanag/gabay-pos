@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +91,26 @@ public class Transaction extends Fragment implements Widget, Action, ProductCart
             Intent goToCheckout = new Intent(getContext(), Checkout.class);
             goToCheckout.putExtra("EXT_INVOICE", invoice);
             startActivity(goToCheckout);
+        });
+
+        search.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* do nothing */ }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().toLowerCase();
+
+                if (query.isEmpty()) {
+                    productAdapter.setProducts(productRepository.getAll());
+                    return;
+                }
+
+                productAdapter.setProducts(productRepository.search(query));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { /* do nothing */ }
         });
     }
 

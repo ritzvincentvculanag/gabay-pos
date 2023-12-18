@@ -123,4 +123,37 @@ public class ProductRepository implements CrudRepository<Product> {
 
         return products;
     }
+
+    public List<Product> search(String query) {
+        CategoryRepository categoryRepository = new CategoryRepository(context);
+        List<Product> products = new ArrayList<>();
+        SQLiteDatabase db = Database.getReadableDatabase(context);
+        String selection = Product.NAME + " LIKE ?";
+        String[] selectionArgs = { "%" + query + "%" };
+        Cursor cursor = db.query(
+                "Product",
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(Product.ID));
+            long categoryId = cursor.getLong(cursor.getColumnIndexOrThrow(Product.CATEGORY));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(Product.NAME));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow(Product.DESCRIPTION));
+            String barcode = cursor.getString(cursor.getColumnIndexOrThrow(Product.BARCODE));
+            double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Product.PRICE));
+
+            Category category = categoryRepository.getCategory((int) categoryId);
+            Product product = new Product(name, description, barcode, price, category);
+            product.setId((int) id);
+            products.add(product);
+        }
+
+        return products;
+    }
 }

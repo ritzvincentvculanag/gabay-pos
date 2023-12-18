@@ -59,6 +59,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         return products.size();
     }
 
+    public void setProducts(List<Product> productList) {
+        products.clear();
+        products.addAll(productList);
+        notifyDataSetChanged();
+    }
+
     public static class ProductHolder extends RecyclerView.ViewHolder {
 
         private TextView name;
