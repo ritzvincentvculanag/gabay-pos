@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.db.Database;
+import me.jhayzonalbay.rmmcgabay.models.UserType;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
 
 public class Hero extends AppCompatActivity {
@@ -28,10 +30,8 @@ public class Hero extends AppCompatActivity {
         content = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_hero);
 
         if (content != null) {
-            NavigationUI.setupWithNavController(navigation, content.getNavController());
+            NavigationUI.setupWithNavController(navigation , content.getNavController());
         }
-
-        SQLiteDatabase db = Database.getWritableDatabase(this);
     }
 
 }

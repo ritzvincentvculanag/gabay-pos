@@ -69,8 +69,6 @@ public class ProductRepository implements CrudRepository<Product> {
         alert.setNegativeButton("No", ((dialog, which) -> Toast.makeText(context, "Aborting", Toast.LENGTH_SHORT).show()));
         alert.show();
 
-        Log.d("RITCHIE", product.toString());
-
         return product;
     }
 
