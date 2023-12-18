@@ -21,12 +21,24 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL(Schema.CREATE_CATEGORY);
+        db.execSQL(Schema.CREATE_USER_TYPE);
+        db.execSQL(Schema.CREATE_PRODUCT);
+        db.execSQL(Schema.CREATE_USER);
+        db.execSQL(Schema.CREATE_TRANSACTION);
+        db.execSQL(Schema.CREATE_PURCHASED_ITEM);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(Schema.DROP_CATEGORY);
+        db.execSQL(Schema.DROP_USER_TYPE);
+        db.execSQL(Schema.DROP_PRODUCT);
+        db.execSQL(Schema.DROP_USER);
+        db.execSQL(Schema.DROP_TRANSACTION);
+        db.execSQL(Schema.DROP_PURCHASED_ITEM);
 
+        onCreate(db);
     }
 
     public static SQLiteDatabase getWritableDatabase(Context context) {
