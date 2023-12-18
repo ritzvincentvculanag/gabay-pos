@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_manage">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_manage"
+    app:startDestination="@id/manageDashboard">
 
+    <fragment
+        android:id="@+id/manageDashboard"
+        android:name="me.jhayzonalbay.rmmcgabay.views.manage.ManageDashboard"
+        android:label="fragment_manage_dashboard"
+        tools:layout="@layout/fragment_manage_dashboard" />
+    <fragment
+        android:id="@+id/manageProduct"
+        android:name="me.jhayzonalbay.rmmcgabay.views.manage.ManageProduct"
+        android:label="fragment_manage_product"
+        tools:layout="@layout/fragment_manage_product" />
+    <fragment
+        android:id="@+id/manageCategory"
+        android:name="me.jhayzonalbay.rmmcgabay.views.manage.ManageCategory"
+        android:label="fragment_manage_category"
+        tools:layout="@layout/fragment_manage_category" />
+    <fragment
+        android:id="@+id/manageUser"
+        android:name="me.jhayzonalbay.rmmcgabay.views.manage.ManageUser"
+        android:label="fragment_manage_user"
+        tools:layout="@layout/fragment_manage_user" />
 </navigation>
