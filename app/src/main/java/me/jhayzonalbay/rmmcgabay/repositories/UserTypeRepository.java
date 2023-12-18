@@ -1,5 +1,6 @@
 package me.jhayzonalbay.rmmcgabay.repositories;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,7 +21,12 @@ public class UserTypeRepository implements CrudRepository<UserType> {
 
     @Override
     public UserType insert(UserType userType) {
-        return null;
+        SQLiteDatabase db = Database.getWritableDatabase(context);
+        ContentValues values = new ContentValues();
+        values.put(UserType.TYPE, userType.getType());
+        db.insert("UserType", null, values);
+
+        return userType;
     }
 
     @Override
