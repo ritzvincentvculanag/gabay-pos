@@ -12,7 +12,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.User;
+import me.jhayzonalbay.rmmcgabay.models.UserType;
 import me.jhayzonalbay.rmmcgabay.repositories.UserRepository;
+import me.jhayzonalbay.rmmcgabay.repositories.UserTypeRepository;
 import me.jhayzonalbay.rmmcgabay.utils.Gabay;
 import me.jhayzonalbay.rmmcgabay.utils.Miner;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
@@ -26,6 +28,7 @@ public class Login extends AppCompatActivity implements Widget {
     private Button login;
 
     private UserRepository userRepository;
+    private UserTypeRepository userTypeRepository;
     private Gabay gabay;
 
     @Override
@@ -35,6 +38,13 @@ public class Login extends AppCompatActivity implements Widget {
 
         userRepository = new UserRepository(this);
         gabay = new Gabay(getSharedPreferences("gabay", MODE_PRIVATE));
+
+        if (!gabay.getBool("IS_SETUP")) {
+            setupUserTypes();
+            setupUsers();
+
+            gabay.save("IS_SETUP", true);
+        }
 
         if (gabay.getBool("IS_LOGGED_IN")) {
             Intent goToDashboard = new Intent(this, Hero.class);
@@ -77,5 +87,40 @@ public class Login extends AppCompatActivity implements Widget {
         } else {
             Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setupUserTypes() {
+        userTypeRepository = new UserTypeRepository(this);
+
+        UserType admin = new UserType();
+        admin.setType("Admin");
+
+        UserType cashier = new UserType();
+        cashier.setType("Cashier");
+
+        userTypeRepository.insert(admin);
+        userTypeRepository.insert(cashier);
+    }
+
+    public void setupUsers() {
+        userRepository = new UserRepository(this);
+
+        User admin = new User();
+        admin.setFirstName("Admin");
+        admin.setLastName("Admin");
+        admin.setUsername("admin");
+        admin.setPassword("admin");
+        admin.setUserType(userTypeRepository.getUserType(1));
+
+        userRepository.insert(admin);
+
+        User cashier = new User();
+        cashier.setFirstName("Cashier");
+        cashier.setLastName("Cashier");
+        cashier.setUsername("cashier");
+        cashier.setPassword("cashier");
+        cashier.setUserType(userTypeRepository.getUserType(2));
+
+        userRepository.insert(cashier);
     }
 }
