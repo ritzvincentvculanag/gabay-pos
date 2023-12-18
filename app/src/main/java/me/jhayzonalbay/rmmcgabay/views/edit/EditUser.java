@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.User;
@@ -42,6 +46,8 @@ public class EditUser extends AppCompatActivity implements Widget {
         setContentView(R.layout.activity_edit_users);
 
         initWidgets();
+        setupForm();
+        setupUserType();
     }
 
     @Override
@@ -60,6 +66,33 @@ public class EditUser extends AppCompatActivity implements Widget {
 
         userTypeRepository = new UserTypeRepository(this);
         userRepository = new UserRepository(this);
+    }
+
+    private void setupForm() {
+        if (getIntent().getExtras() == null) {
+            return;
+        }
+
+        User user = getIntent().getExtras().getParcelable("EXT_USER");
+
+        firstName.getEditText().setText(user.gupdateetFirstName());
+        lastName.getEditText().setText(user.getLastName());
+        middleName.getEditText().setText(user.getMiddleName());
+        username.getEditText().setText(user.getUsername());
+        password.getEditText().setText(user.getPassword());
+        passwordConfirm.getEditText().setText(user.getPassword());
+        userType.setText(user.getUserType().getType());
+
+        proceed.setText("Update");
+        proceed.setOnClickListener(this::proceedUpdateUser);
+    }
+
+    private void setupUserType() {
+        List<String> userTypes = userTypeRepository.getAll().stream()
+                .map(UserType::getType)
+                .collect(Collectors.toList());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, com.google.android.material.R.layout.support_simple_spinner_dropdown_item, userTypes);
+        userType.setAdapter(adapter);
     }
 
     private void proceedAddUser(View view) {
@@ -109,10 +142,10 @@ public class EditUser extends AppCompatActivity implements Widget {
         user.setPassword(pWord);
         user.setUserType(uType);
 
+        Toast.makeText(this, "User added successfully!", Toast.LENGTH_SHORT).show();
         userRepository.insert(user);
     }
 
-    // Create a function that updates a user
     public void proceedUpdateUser(View view) {
         if (!Validator.fieldsAreValid(
                 firstName,
@@ -162,4 +195,5 @@ public class EditUser extends AppCompatActivity implements Widget {
 
         userRepository.update(user);
     }
+
 }

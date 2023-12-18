@@ -2,6 +2,7 @@ package me.jhayzonalbay.rmmcgabay.repositories;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
@@ -90,6 +91,35 @@ public class UserRepository implements CrudRepository<User> {
 
     @Override
     public List<User> getAll() {
-        return null;
+        List<User> users = new ArrayList<>();
+        SQLiteDatabase db = Database.getReadableDatabase(context);
+        Cursor cursor = db.query(
+                "User",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(User.ID));
+            String firstName = cursor.getString(cursor.getColumnIndexOrThrow(User.FIRST_NAME));
+            String lastName = cursor.getString(cursor.getColumnIndexOrThrow(User.LAST_NAME));
+            String middleName = cursor.getString(cursor.getColumnIndexOrThrow(User.MIDDLE_NAME));
+            String username = cursor.getString(cursor.getColumnIndexOrThrow(User.USERNAME));
+            String password = cursor.getString(cursor.getColumnIndexOrThrow(User.PASSWORD));
+            int userTypeId = cursor.getInt(cursor.getColumnIndexOrThrow(User.USER_TYPE));
+
+            UserTypeRepository userTypeRepository = new UserTypeRepository(context);
+            UserType userType = userTypeRepository.getUserType(userTypeId);
+
+            User user = new User(firstName, lastName, middleName, username, password, userType);
+            user.setId((int) id);
+            users.add(user);
+        }
+
+        return users;
     }
 }
