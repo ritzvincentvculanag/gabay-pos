@@ -47,8 +47,8 @@ public class CategoryRepository implements CrudRepository<Category> {
 
         MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context);
 
-        alert.setTitle("Delete category");
-        alert.setMessage("Are you sure you want to delete this category?");
+        alert.setTitle("Update category");
+        alert.setMessage("Are you sure you want to update this category?");
         alert.setPositiveButton("Yes", ((dialog, which) -> {
             db.update("Category", values, selection, selectionArgs);
             Toast.makeText(context, category.getName() + " updated!", Toast.LENGTH_SHORT).show();
