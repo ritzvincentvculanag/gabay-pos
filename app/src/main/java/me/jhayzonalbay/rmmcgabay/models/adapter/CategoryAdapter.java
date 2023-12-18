@@ -13,13 +13,16 @@ import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Category;
+import me.jhayzonalbay.rmmcgabay.utils.CategoryItem;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> {
 
     private List<Category> categories;
+    private CategoryItem categoryItem;
 
-    public CategoryAdapter(List<Category> categories) {
+    public CategoryAdapter(List<Category> categories, CategoryItem categoryItem) {
         this.categories = categories;
+        this.categoryItem = categoryItem;
     }
 
     @NonNull
@@ -28,7 +31,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout_category, parent, false);
 
-        return new CategoryHolder(view);
+        return new CategoryHolder(view, categoryItem);
     }
 
     @Override
@@ -49,13 +52,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private Button edit;
         private Button delete;
 
-        public CategoryHolder(@NonNull View view) {
+        public CategoryHolder(@NonNull View view, CategoryItem categoryItem) {
             super(view);
 
             name = view.findViewById(R.id.tv_cat_name);
 
             edit = view.findViewById(R.id.btn_cat_edit);
             delete = view.findViewById(R.id.btn_category_delete);
+
+            edit.setOnClickListener(e -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    categoryItem.edit(getAdapterPosition());
+                }
+            });
+            delete.setOnClickListener(e -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    categoryItem.delete(getAdapterPosition());
+                }
+            });
         }
     }
 
