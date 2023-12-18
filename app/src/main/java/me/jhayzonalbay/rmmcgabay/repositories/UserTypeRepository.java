@@ -59,6 +59,32 @@ public class UserTypeRepository implements CrudRepository<UserType> {
         return userTypes;
     }
 
+    public UserType getUserType(int id) {
+        UserType userType = new UserType();
+        SQLiteDatabase db = Database.getWritableDatabase(context);
+        String selection = UserType.ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(id) };
+        Cursor cursor = db.query(
+                "UserType",
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            long currentId = cursor.getLong(cursor.getColumnIndexOrThrow(UserType.ID));
+            String userTypeType = cursor.getString(cursor.getColumnIndexOrThrow(UserType.TYPE));
+
+            userType.setId((int) currentId);
+            userType.setType(userTypeType);
+        }
+
+        return userType;
+    }
+
     public UserType getUserType(String type) {
         UserType userType = new UserType();
         SQLiteDatabase db = Database.getWritableDatabase(context);

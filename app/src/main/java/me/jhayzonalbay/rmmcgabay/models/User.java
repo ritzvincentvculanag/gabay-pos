@@ -115,6 +115,10 @@ public class User implements Parcelable {
         this.userType = userType;
     }
 
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
+
     @Override
     public int describeContents() {
         return 0;
