@@ -62,4 +62,12 @@ public class Category implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
