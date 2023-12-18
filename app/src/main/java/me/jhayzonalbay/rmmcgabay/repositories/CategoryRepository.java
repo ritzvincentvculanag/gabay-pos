@@ -3,6 +3,7 @@ package me.jhayzonalbay.rmmcgabay.repositories;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class CategoryRepository implements CrudRepository<Category> {
         values.put(Category.NAME, category.getName());
         long categoryId = db.insert("Category", null, values);
         category.setId((int) categoryId);
+
+        Toast.makeText(context, "Category added!", Toast.LENGTH_SHORT).show();
 
         return category;
     }
