@@ -11,7 +11,9 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 
 import me.jhayzonalbay.rmmcgabay.R;
+import me.jhayzonalbay.rmmcgabay.models.User;
 import me.jhayzonalbay.rmmcgabay.repositories.UserRepository;
+import me.jhayzonalbay.rmmcgabay.utils.Gabay;
 import me.jhayzonalbay.rmmcgabay.utils.Miner;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
 
@@ -24,6 +26,7 @@ public class Login extends AppCompatActivity implements Widget {
     private Button login;
 
     private UserRepository userRepository;
+    private Gabay gabay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,13 @@ public class Login extends AppCompatActivity implements Widget {
         setContentView(R.layout.activity_login);
 
         userRepository = new UserRepository(this);
+        gabay = new Gabay(getSharedPreferences("gabay", MODE_PRIVATE));
+
+        if (gabay.getBool("IS_LOGGED_IN")) {
+            Intent goToDashboard = new Intent(this, Hero.class);
+            startActivity(goToDashboard);
+            finish();
+        }
 
         initWidgets();
     }
@@ -54,6 +64,10 @@ public class Login extends AppCompatActivity implements Widget {
         }
 
         if (userRepository.getUser(username, password).getId() > 0) {
+            User user = userRepository.getUser(username, password);
+            gabay.save("USER_ID", user.getId());
+            gabay.save("IS_LOGGED_IN", true);
+
             Intent goToDashboard = new Intent(this, Hero.class);
             startActivity(goToDashboard);
             finish();
