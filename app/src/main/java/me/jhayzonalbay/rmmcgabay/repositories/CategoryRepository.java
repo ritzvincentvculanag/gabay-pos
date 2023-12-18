@@ -2,9 +2,11 @@ package me.jhayzonalbay.rmmcgabay.repositories;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.db.Database;
@@ -44,6 +46,29 @@ public class CategoryRepository implements CrudRepository<Category> {
 
     @Override
     public List<Category> getAll() {
-        return null;
+        List<Category> categories = new ArrayList<>();
+        SQLiteDatabase db = Database.getReadableDatabase(context);
+        String[] projection = { Category.ID, Category.NAME };
+        Cursor cursor = db.query(
+                "Category",
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(Category.ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(Category.NAME));
+            Category category = new Category((int) id, name);
+
+            categories.add(category);
+        }
+
+        cursor.close();
+
+        return categories;
     }
 }
