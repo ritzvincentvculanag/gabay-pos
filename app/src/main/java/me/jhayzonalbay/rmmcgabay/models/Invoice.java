@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Invoice implements Parcelable {
@@ -23,7 +24,8 @@ public class Invoice implements Parcelable {
     private Double subTotal;
 
     public Invoice() {
-
+        this.products = new ArrayList<>();
+        this.subTotal = 0d;
     }
 
     public Invoice(List<Product> products, LocalDate transactionDate, Double subTotal) {
@@ -88,11 +90,21 @@ public class Invoice implements Parcelable {
     }
 
     public Double getSubTotal() {
-        return subTotal;
+        return products.stream()
+                .map(Product::getPrice)
+                .reduce(0d, Double::sum);
     }
 
     public void setSubTotal(Double subTotal) {
         this.subTotal = subTotal;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        this.products.remove(product);
     }
 
     @Override

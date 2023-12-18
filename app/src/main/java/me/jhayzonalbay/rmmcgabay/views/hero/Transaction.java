@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -18,14 +19,16 @@ import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.actions.BarcodeScanner;
+import me.jhayzonalbay.rmmcgabay.models.Invoice;
 import me.jhayzonalbay.rmmcgabay.models.Product;
 import me.jhayzonalbay.rmmcgabay.models.adapter.ProductAdapter;
 import me.jhayzonalbay.rmmcgabay.repositories.ProductRepository;
 import me.jhayzonalbay.rmmcgabay.utils.Action;
 import me.jhayzonalbay.rmmcgabay.utils.Executable;
+import me.jhayzonalbay.rmmcgabay.utils.ProductCart;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
 
-public class Transaction extends Fragment implements Widget, Action {
+public class Transaction extends Fragment implements Widget, Action, ProductCart {
 
     private View view;
 
@@ -43,6 +46,7 @@ public class Transaction extends Fragment implements Widget, Action {
     // Dependencies
     private ProductRepository productRepository;
     private Executable scanner;
+    private Invoice invoice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,9 +67,11 @@ public class Transaction extends Fragment implements Widget, Action {
 
         scan = view.findViewById(R.id.fab_trans_scan);
 
+        invoice = new Invoice();
+
         productRepository = new ProductRepository(getContext());
         productList = productRepository.getAll();
-        productAdapter = new ProductAdapter(productList);
+        productAdapter = new ProductAdapter(productList, this);
 
         products = view.findViewById(R.id.rv_trans_products);
         products.setAdapter(productAdapter);
@@ -79,4 +85,16 @@ public class Transaction extends Fragment implements Widget, Action {
         scan.setOnClickListener(e -> scanner.execute());
     }
 
+    @Override
+    public void add(int position) {
+        Product productToAdd = productList.get(position);
+
+        if (invoice.getProducts().contains(productToAdd)) {
+            Toast.makeText(getContext(), "Product is already in cart!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        invoice.addProduct(productToAdd);
+        viewCart.setText(String.valueOf(invoice.getProducts().size()));
+    }
 }

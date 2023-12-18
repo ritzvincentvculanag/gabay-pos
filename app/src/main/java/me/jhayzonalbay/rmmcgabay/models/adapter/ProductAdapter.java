@@ -14,13 +14,16 @@ import java.util.Locale;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Product;
+import me.jhayzonalbay.rmmcgabay.utils.ProductCart;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
 
     private final List<Product> products;
+    private final ProductCart productCart;
 
-    public ProductAdapter(List<Product> products) {
+    public ProductAdapter(List<Product> products, ProductCart productCart) {
         this.products = products;
+        this.productCart = productCart;
     }
 
     @NonNull
@@ -29,7 +32,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout_product, parent, false);
 
-        return new ProductHolder(view);
+        return new ProductHolder(view, productCart);
     }
 
     @Override
@@ -67,7 +70,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         private Button decrease;
         private Button add;
 
-        public ProductHolder(@NonNull View view) {
+        public ProductHolder(@NonNull View view, ProductCart productCart) {
             super(view);
 
             name = view.findViewById(R.id.tv_product_name);
@@ -78,6 +81,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             increase = view.findViewById(R.id.btn_product_increase);
             decrease = view.findViewById(R.id.btn_product_decrease);
             add = view.findViewById(R.id.btn_product_add);
+
+            add.setOnClickListener(e -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    productCart.add(getAdapterPosition());
+                    quantity.setText("1");
+                }
+            });
         }
     }
 
