@@ -10,6 +10,11 @@ import java.util.List;
 
 public class Transaction implements Parcelable {
 
+    public static final String ID = "id";
+    public static final String USER_ID = "user_id";
+    public static final String TRANSACTION_DATE = "transaction_date";
+    public static final String SUBTOTAL = "subtotal";
+
     private int id;
     private int userId;
 

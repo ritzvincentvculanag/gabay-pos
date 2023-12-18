@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 
 public class Category implements Parcelable {
 
+    public static final String ID = "id";
+    public static final String NAME = "name";
+
     private int id;
 
     private String name;

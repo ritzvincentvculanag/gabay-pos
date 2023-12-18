@@ -7,6 +7,14 @@ import androidx.annotation.NonNull;
 
 public class User implements Parcelable {
 
+    public static final String ID = "id";
+    public static final String USER_TYPE = "user_type";
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
+    public static final String MIDDLE_NAME ="middle_name";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+
     private int id;
 
     private String firstName;

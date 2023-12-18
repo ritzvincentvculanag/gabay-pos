@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 
 public class UserType implements Parcelable {
 
+    public static final String ID = "id";
+    public static final String TYPE = "type";
+
     private int id;
 
     private String type;
