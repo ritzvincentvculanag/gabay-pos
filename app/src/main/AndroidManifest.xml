@@ -7,13 +7,14 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Gabay Store"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RmmcGabay"
         tools:targetApi="31">
         <activity
             android:name=".views.Checkout"
+            android:label="Checkout"
             android:exported="false" />
         <activity
             android:name=".views.edit.EditUser"
@@ -31,13 +32,16 @@
             android:label="Manage product"
             android:parentActivityName=".views.Manage" />
         <activity
+            android:label="Manage System"
             android:name=".views.Manage"
             android:exported="false" />
         <activity
-            android:name=".views.Login"
+            android:label="Dashboard"
+            android:name=".views.Hero"
             android:exported="false" />
         <activity
-            android:name=".views.Hero"
+            android:label="Gabay Store"
+            android:name=".views.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

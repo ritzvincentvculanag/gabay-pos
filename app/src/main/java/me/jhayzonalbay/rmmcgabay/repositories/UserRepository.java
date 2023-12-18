@@ -124,7 +124,7 @@ public class UserRepository implements CrudRepository<User> {
     }
 
     public User getUser(String username, String password) {
-        User user = null;
+        User user = new User();
         SQLiteDatabase db = Database.getWritableDatabase(context);
         String selection = User.USERNAME + " LIKE ? AND " + User.PASSWORD + " LIKE ?";
         String[] selectionArgs = { username, password };
