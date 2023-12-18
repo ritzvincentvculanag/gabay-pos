@@ -14,8 +14,11 @@ import android.widget.Button;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.List;
+
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.actions.BarcodeScanner;
+import me.jhayzonalbay.rmmcgabay.models.Product;
 import me.jhayzonalbay.rmmcgabay.models.adapter.ProductAdapter;
 import me.jhayzonalbay.rmmcgabay.repositories.ProductRepository;
 import me.jhayzonalbay.rmmcgabay.utils.Action;
@@ -29,14 +32,16 @@ public class Transaction extends Fragment implements Widget, Action {
     // Widgets
     private TextInputLayout search;
 
-    private Button cart;
+    private Button viewCart;
 
     private FloatingActionButton scan;
 
     private RecyclerView products;
     private ProductAdapter productAdapter;
+    private List<Product> productList;
 
     // Dependencies
+    private ProductRepository productRepository;
     private Executable scanner;
 
     @Override
@@ -54,11 +59,13 @@ public class Transaction extends Fragment implements Widget, Action {
     public void initWidgets() {
         search = view.findViewById(R.id.til_trans_search);
 
-        cart = view.findViewById(R.id.btn_trans_cart);
+        viewCart = view.findViewById(R.id.btn_trans_cart);
 
         scan = view.findViewById(R.id.fab_trans_scan);
 
-        productAdapter = new ProductAdapter(new ProductRepository());
+        productRepository = new ProductRepository();
+        productList = productRepository.getAll();
+        productAdapter = new ProductAdapter(productList);
 
         products = view.findViewById(R.id.rv_trans_products);
         products.setAdapter(productAdapter);
@@ -71,4 +78,5 @@ public class Transaction extends Fragment implements Widget, Action {
 
         scan.setOnClickListener(e -> scanner.execute());
     }
+
 }
