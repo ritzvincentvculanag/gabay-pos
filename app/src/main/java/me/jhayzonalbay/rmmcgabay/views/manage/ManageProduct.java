@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,10 @@ public class ManageProduct extends Fragment implements Widget, Item {
 
     @Override
     public void edit(int position) {
-        // TODO: Implement edit
+        Product productToEdit = products.get(position);
+        Intent goToEditProduct = new Intent(getContext(), EditProduct.class);
+        goToEditProduct.putExtra("EXT_PRODUCT", productToEdit);
+        startActivity(goToEditProduct);
     }
 
     @Override
@@ -57,6 +61,8 @@ public class ManageProduct extends Fragment implements Widget, Item {
         Product productToDelete = products.get(position);
         productRepository.delete(productToDelete);
         productAdapter.notifyDataSetChanged();
+
+        Log.d("RITCHIE", productToDelete.getId().toString());
     }
 
     @Override

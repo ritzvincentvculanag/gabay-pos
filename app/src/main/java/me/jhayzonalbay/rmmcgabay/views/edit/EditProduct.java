@@ -49,6 +49,7 @@ public class EditProduct extends AppCompatActivity implements Widget {
 
         initWidgets();
         setupCategories();
+        setupForm();
     }
 
     @Override
@@ -92,6 +93,36 @@ public class EditProduct extends AppCompatActivity implements Widget {
         );
 
         productRepository.insert(product);
+        Validator.clearFields(name, description, price);
+        category.setText("");
+    }
+
+    private void proceedEditAction(View view) {
+        if (!Validator.fieldsAreValid(name, description, price)) {
+            return;
+        }
+
+        if (category.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Select a category!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String productName = Miner.getContent(name);
+        String productDescription = Miner.getContent(description);
+        String productBarcode = Miner.getContent(barcode);
+        Double productPrice = Double.parseDouble(Miner.getContent(price));
+        Category productCategory = categoryMap.get(category.getText().toString());
+
+        Product product = getIntent().getExtras().getParcelable("EXT_PRODUCT");
+        product.setName(productName);
+        product.setDescription(productDescription);
+        product.setBarcode(productBarcode);
+        product.setPrice(productPrice);
+        product.setCategory(productCategory);
+
+        productRepository.update(product);
+        Validator.clearFields(name, description, price);
+        category.setText("");
     }
 
     private void setupCategories() {
@@ -105,5 +136,20 @@ public class EditProduct extends AppCompatActivity implements Widget {
 
         categories.forEach(item -> categoryMap.put(item.getName(), item));
         category.setAdapter(categoriesAdapter);
+    }
+
+    private void setupForm() {
+        if (!getIntent().hasExtra("EXT_PRODUCT")) {
+            return;
+        }
+
+        Product product = getIntent().getExtras().getParcelable("EXT_PRODUCT");
+        name.getEditText().setText(product.getName());
+        description.getEditText().setText(product.getDescription());
+        price.getEditText().setText(String.valueOf(product.getPrice()));
+        barcode.getEditText().setText(product.getBarcode());
+        category.setText(product.getCategory().getName());
+        proceed.setText("Edit product");
+        proceed.setOnClickListener(this::proceedEditAction);
     }
 }

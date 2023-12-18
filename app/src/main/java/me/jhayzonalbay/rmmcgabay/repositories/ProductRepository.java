@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -65,6 +66,8 @@ public class ProductRepository implements CrudRepository<Product> {
         }));
         alert.setNegativeButton("No", ((dialog, which) -> Toast.makeText(context, "Aborting", Toast.LENGTH_SHORT).show()));
         alert.show();
+
+        Log.d("RITCHIE", product.toString());
 
         return product;
     }
