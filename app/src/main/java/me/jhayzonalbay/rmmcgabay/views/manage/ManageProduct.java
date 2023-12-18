@@ -54,7 +54,9 @@ public class ManageProduct extends Fragment implements Widget, Item {
 
     @Override
     public void delete(int position) {
-        // TODO: Implement delete
+        Product productToDelete = products.get(position);
+        productRepository.delete(productToDelete);
+        productAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ManageProduct extends Fragment implements Widget, Item {
 
         productRepository = new ProductRepository(getContext());
         products = productRepository.getAll();
-        productAdapter = new ManageProductAdapter(products);
+        productAdapter = new ManageProductAdapter(products, this);
         productsView = view.findViewById(R.id.rv_mproducts);
         productsView.setAdapter(productAdapter);
         productsView.setLayoutManager(new LinearLayoutManager(getContext()));

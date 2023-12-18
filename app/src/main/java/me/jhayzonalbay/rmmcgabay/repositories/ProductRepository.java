@@ -60,7 +60,7 @@ public class ProductRepository implements CrudRepository<Product> {
         alert.setTitle("Update product");
         alert.setMessage("Are you sure you want to update this product?");
         alert.setPositiveButton("Yes", ((dialog, which) -> {
-            db.update("Category", values, selection, selectionArgs);
+            db.update("Product", values, selection, selectionArgs);
             Toast.makeText(context, product.getName() + " updated!", Toast.LENGTH_SHORT).show();
         }));
         alert.setNegativeButton("No", ((dialog, which) -> Toast.makeText(context, "Aborting", Toast.LENGTH_SHORT).show()));
@@ -80,7 +80,7 @@ public class ProductRepository implements CrudRepository<Product> {
         alert.setTitle("Delete product");
         alert.setMessage("Are you sure you want to delete this product?");
         alert.setPositiveButton("Yes", ((dialog, which) -> {
-            db.delete("Category", selection, selectionArgs);
+            db.delete("Product", selection, selectionArgs);
             Toast.makeText(context, product.getName() + " deleted!", Toast.LENGTH_SHORT).show();
         }));
         alert.setNegativeButton("No", ((dialog, which) -> Toast.makeText(context, "Aborting", Toast.LENGTH_SHORT).show()));

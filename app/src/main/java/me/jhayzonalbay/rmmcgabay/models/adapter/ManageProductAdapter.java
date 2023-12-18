@@ -14,13 +14,16 @@ import java.util.Locale;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Product;
+import me.jhayzonalbay.rmmcgabay.utils.Item;
 
 public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdapter.ManageProductHolder>{
 
     private List<Product> products;
+    private Item item;
 
-    public ManageProductAdapter(List<Product> products) {
+    public ManageProductAdapter(List<Product> products, Item item) {
         this.products = products;
+        this.item = item;
     }
 
     @NonNull
@@ -29,7 +32,7 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout_product_manage, parent, false);
 
-        return new ManageProductHolder(view);
+        return new ManageProductHolder(view, item);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
         private Button edit;
         private Button delete;
 
-        public ManageProductHolder(@NonNull View view) {
+        public ManageProductHolder(@NonNull View view, Item item) {
             super(view);
 
             name = view.findViewById(R.id.tv_mproduct_name);
@@ -64,6 +67,17 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
 
             edit = view.findViewById(R.id.btn_mproduct_edit);
             delete = view.findViewById(R.id.btn_mproduct_delete);
+
+            edit.setOnClickListener(e -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    item.edit(getAdapterPosition());
+                }
+            });
+            delete.setOnClickListener(e -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    item.delete(getAdapterPosition());
+                }
+            });
         }
     }
 
