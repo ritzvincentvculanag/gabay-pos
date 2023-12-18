@@ -19,9 +19,10 @@ import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Category;
 import me.jhayzonalbay.rmmcgabay.models.adapter.CategoryAdapter;
 import me.jhayzonalbay.rmmcgabay.repositories.CategoryRepository;
+import me.jhayzonalbay.rmmcgabay.utils.CategoryItem;
 import me.jhayzonalbay.rmmcgabay.views.edit.EditCategory;
 
-public class ManageCategory extends Fragment {
+public class ManageCategory extends Fragment implements CategoryItem {
 
     private View view;
 
@@ -45,7 +46,7 @@ public class ManageCategory extends Fragment {
 
         repository = new CategoryRepository(getContext());
         categories = repository.getAll();
-        categoryAdapter = new CategoryAdapter(categories);
+        categoryAdapter = new CategoryAdapter(categories, this);
         categoriesView = view.findViewById(R.id.rv_manage_category);
         categoriesView.setAdapter(categoryAdapter);
         categoriesView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -53,4 +54,13 @@ public class ManageCategory extends Fragment {
         return view;
     }
 
+    @Override
+    public void edit(int position) {
+        // TODO: Implement edit
+    }
+
+    @Override
+    public void delete(int position) {
+
+    }
 }
