@@ -1,66 +1,72 @@
 package me.jhayzonalbay.rmmcgabay.views.manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
+
 import me.jhayzonalbay.rmmcgabay.R;
+import me.jhayzonalbay.rmmcgabay.models.Product;
+import me.jhayzonalbay.rmmcgabay.models.adapter.ManageProductAdapter;
+import me.jhayzonalbay.rmmcgabay.repositories.ProductRepository;
+import me.jhayzonalbay.rmmcgabay.utils.Item;
+import me.jhayzonalbay.rmmcgabay.utils.Widget;
+import me.jhayzonalbay.rmmcgabay.views.edit.EditProduct;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ManageProduct#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ManageProduct extends Fragment {
+public class ManageProduct extends Fragment implements Widget, Item {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private View view;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TextInputLayout search;
 
-    public ManageProduct() {
-        // Required empty public constructor
-    }
+    private List<Product> products;
+    private RecyclerView productsView;
+    private ManageProductAdapter productAdapter;
+    private ProductRepository productRepository;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ManageProduct.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ManageProduct newInstance(String param1, String param2) {
-        ManageProduct fragment = new ManageProduct();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private FloatingActionButton addProduct;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        view = inflater.inflate(R.layout.fragment_manage_product, container, false);
+
+        initWidgets();
+
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void edit(int position) {
+        // TODO: Implement edit
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manage_product, container, false);
+    public void delete(int position) {
+        // TODO: Implement delete
+    }
+
+    @Override
+    public void initWidgets() {
+        addProduct = view.findViewById(R.id.fab_mproducts_add);
+        addProduct.setOnClickListener(e -> startActivity(new Intent(getContext(), EditProduct.class)));
+
+        productRepository = new ProductRepository(getContext());
+        products = productRepository.getAll();
+        productAdapter = new ManageProductAdapter(products);
+        productsView = view.findViewById(R.id.rv_mproducts);
+        productsView.setAdapter(productAdapter);
+        productsView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }
