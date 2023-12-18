@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import me.jhayzonalbay.rmmcgabay.R;
+import me.jhayzonalbay.rmmcgabay.utils.Gabay;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
 import me.jhayzonalbay.rmmcgabay.views.Manage;
 
@@ -18,7 +20,14 @@ public class Profile extends Fragment implements Widget {
 
     private View view;
 
+    private TextView fullName;
+    private TextView role;
+
     private Button manageSystem;
+    private Button editProfile;
+    private Button logout;
+
+    private Gabay gabay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +43,25 @@ public class Profile extends Fragment implements Widget {
     public void initWidgets() {
         manageSystem = view.findViewById(R.id.btn_profile_manage);
         manageSystem.setOnClickListener(this::manageSystemAction);
+
+        fullName = view.findViewById(R.id.tv_profile_name);
+        role = view.findViewById(R.id.tv_profile_role);
+        editProfile = view.findViewById(R.id.btn_profile_edit);
+        logout = view.findViewById(R.id.btn_profile_logout);
+        logout.setOnClickListener(v -> {
+            gabay.clear();
+            Intent goToLogin = new Intent(getContext(), me.jhayzonalbay.rmmcgabay.views.Login.class);
+            startActivity(goToLogin);
+            getActivity().finish();
+        });
+
+        gabay = new Gabay(getContext().getSharedPreferences("gabay", getContext().MODE_PRIVATE));
+        fullName.setText(gabay.getString("USER_NAME"));
+        role.setText(gabay.getString("USER_ROLE"));
+
+        editProfile.setVisibility(gabay.getBool("IS_ADMIN") ? View.VISIBLE : View.GONE);
+        manageSystem.setVisibility(gabay.getBool("IS_ADMIN") ? View.VISIBLE : View.GONE);
+
     }
 
     private void manageSystemAction(View view) {

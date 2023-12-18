@@ -66,6 +66,9 @@ public class Login extends AppCompatActivity implements Widget {
         if (userRepository.getUser(username, password).getId() > 0) {
             User user = userRepository.getUser(username, password);
             gabay.save("USER_ID", user.getId());
+            gabay.save("USER_NAME", user.getFullName());
+            gabay.save("USER_ROLE", user.getUserType().getType());
+            gabay.save("IS_ADMIN", user.getUserType().getId() == 1);
             gabay.save("IS_LOGGED_IN", true);
 
             Intent goToDashboard = new Intent(this, Hero.class);

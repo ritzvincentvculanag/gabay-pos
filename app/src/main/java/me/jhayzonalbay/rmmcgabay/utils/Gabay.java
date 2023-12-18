@@ -40,4 +40,10 @@ public class Gabay {
         return sharedPreferences.getBoolean(key, false);
     }
 
+    public void clear() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
 }
