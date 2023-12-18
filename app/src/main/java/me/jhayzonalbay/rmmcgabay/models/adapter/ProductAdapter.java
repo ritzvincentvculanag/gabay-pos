@@ -9,18 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
 import java.util.Locale;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Product;
-import me.jhayzonalbay.rmmcgabay.repositories.CrudRepository;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
 
-    private final CrudRepository<Product> repository;
+    private final List<Product> products;
 
-    public ProductAdapter(CrudRepository<Product> repository) {
-        this.repository = repository;
+    public ProductAdapter(List<Product> products) {
+        this.products = products;
     }
 
     @NonNull
@@ -34,17 +34,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
-        Product product = repository.getAll().get(position);
+        Product product = products.get(position);
 
         holder.name.setText(product.getName());
         holder.description.setText(product.getDescription());
-        holder.price.setText(String.format(Locale.US, "%f.00", product.getPrice()));
+        holder.price.setText(String.format(Locale.US, "P%.2f", product.getPrice()));
 
+        holder.increase.setOnClickListener(e -> {
+            product.increase();
+            holder.quantity.setText(String.format(Locale.US, "%d", product.getQuantity()));
+        });
+
+        holder.decrease.setOnClickListener(e -> {
+            product.decrease();
+            holder.quantity.setText(String.format(Locale.US, "%d", product.getQuantity()));
+        });
     }
 
     @Override
     public int getItemCount() {
-        return repository.getAll().size();
+        return products.size();
     }
 
     public static class ProductHolder extends RecyclerView.ViewHolder {
@@ -66,7 +75,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             price = view.findViewById(R.id.tv_product_price);
             quantity = view.findViewById(R.id.tv_product_quantity);
 
-            // TODO: implement button clicks
+            increase = view.findViewById(R.id.btn_product_increase);
+            decrease = view.findViewById(R.id.btn_product_decrease);
+            add = view.findViewById(R.id.btn_product_add);
         }
     }
 
