@@ -1,5 +1,7 @@
 package me.jhayzonalbay.rmmcgabay.repositories;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public interface CrudRepository<T> {

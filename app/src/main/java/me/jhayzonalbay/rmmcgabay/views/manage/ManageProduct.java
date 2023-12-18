@@ -60,7 +60,7 @@ public class ManageProduct extends Fragment implements Widget, Item {
     public void delete(int position) {
         Product productToDelete = products.get(position);
         productRepository.delete(productToDelete);
-        productAdapter.notifyDataSetChanged();
+        productAdapter.notifyItemRemoved(position);
 
         Log.d("RITCHIE", productToDelete.getId().toString());
     }
