@@ -112,9 +112,9 @@ public class ProductRepository implements CrudRepository<Product> {
             String barcode = cursor.getString(cursor.getColumnIndexOrThrow(Product.BARCODE));
             double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Product.PRICE));
 
-
             Category category = categoryRepository.getCategory((int) categoryId);
-            Product product = new Product(name, barcode, price, category);
+            Product product = new Product(name, description, barcode, price, category);
+            product.setId((int) id);
             products.add(product);
         }
 
