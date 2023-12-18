@@ -17,6 +17,7 @@ public class Product {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.quantity = 1;
     }
 
     public Integer getId() {
@@ -57,6 +58,18 @@ public class Product {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public void increase() {
+        quantity += 1;
+    }
+
+    public void decrease() {
+        if (quantity == 1) {
+            quantity = 1;
+        }
+
+        quantity -= 1;
     }
 
     @Override
