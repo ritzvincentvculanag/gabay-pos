@@ -36,12 +36,26 @@ public class CategoryRepository implements CrudRepository<Category> {
 
     @Override
     public Category update(Category category) {
+        SQLiteDatabase db = Database.getWritableDatabase(context);
+        ContentValues values = new ContentValues();
+        String selection = Category.ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(category.getId()) };
+
+        values.put(Category.NAME, category.getName());
+        db.update("Category", values, selection, selectionArgs);
+
         return null;
     }
 
     @Override
     public Category delete(Category category) {
-        return null;
+        SQLiteDatabase db = Database.getWritableDatabase(context);
+        String selection = Category.ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(category.getId()) };
+
+        db.delete("Category", selection, selectionArgs);
+
+        return category;
     }
 
     @Override
