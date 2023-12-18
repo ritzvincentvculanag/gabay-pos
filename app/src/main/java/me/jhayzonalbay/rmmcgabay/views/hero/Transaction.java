@@ -1,5 +1,6 @@
 package me.jhayzonalbay.rmmcgabay.views.hero;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,7 @@ import me.jhayzonalbay.rmmcgabay.utils.Action;
 import me.jhayzonalbay.rmmcgabay.utils.Executable;
 import me.jhayzonalbay.rmmcgabay.utils.ProductCart;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
+import me.jhayzonalbay.rmmcgabay.views.Checkout;
 
 public class Transaction extends Fragment implements Widget, Action, ProductCart {
 
@@ -83,6 +85,11 @@ public class Transaction extends Fragment implements Widget, Action, ProductCart
         scanner = new BarcodeScanner(getActivity(), this);
 
         scan.setOnClickListener(e -> scanner.execute());
+        viewCart.setOnClickListener(e -> {
+            Intent goToCheckout = new Intent(getContext(), Checkout.class);
+            goToCheckout.putExtra("EXT_INVOICE", invoice);
+            startActivity(goToCheckout);
+        });
     }
 
     @Override
