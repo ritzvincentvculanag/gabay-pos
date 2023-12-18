@@ -1,6 +1,11 @@
 package me.jhayzonalbay.rmmcgabay.models;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Product implements Parcelable {
 
     private Integer id;
 
@@ -8,17 +13,52 @@ public class Product {
     private String description;
     private Double price;
     private Integer quantity;
+    private Category category;
 
     public Product() {
 
     }
 
-    public Product(String name, String description, Double price) {
+    public Product(String name, String description, Double price, Integer quantity, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.quantity = 1;
+        this.quantity = quantity;
+        this.category = category;
     }
+
+    protected Product(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        description = in.readString();
+        if (in.readByte() == 0) {
+            price = null;
+        } else {
+            price = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            quantity = null;
+        } else {
+            quantity = in.readInt();
+        }
+        category = in.readParcelable(Category.class.getClassLoader());
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -60,26 +100,41 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public void increase() {
-        quantity += 1;
+    public Category getCategory() {
+        return category;
     }
 
-    public void decrease() {
-        if (quantity == 1) {
-            quantity = 1;
-        }
-
-        quantity -= 1;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                '}';
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(name);
+        dest.writeString(description);
+        if (price == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(price);
+        }
+        if (quantity == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(quantity);
+        }
+        dest.writeParcelable(category, flags);
     }
 }
