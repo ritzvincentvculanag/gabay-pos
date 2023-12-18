@@ -75,7 +75,7 @@ public class EditUser extends AppCompatActivity implements Widget {
 
         User user = getIntent().getExtras().getParcelable("EXT_USER");
 
-        firstName.getEditText().setText(user.gupdateetFirstName());
+        firstName.getEditText().setText(user.getFirstName());
         lastName.getEditText().setText(user.getLastName());
         middleName.getEditText().setText(user.getMiddleName());
         username.getEditText().setText(user.getUsername());
