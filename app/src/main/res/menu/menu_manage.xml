@@ -11,15 +11,18 @@
         android:id="@+id/manageProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/ic_product"
         android:title="Products" />
     <item
         android:id="@+id/manageCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/ic_category"
         android:title="Categories" />
     <item
         android:id="@+id/manageUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/ic_user"
         android:title="Users" />
 </menu>
