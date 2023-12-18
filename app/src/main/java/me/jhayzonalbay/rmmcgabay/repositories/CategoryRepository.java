@@ -79,6 +79,32 @@ public class CategoryRepository implements CrudRepository<Category> {
         return category;
     }
 
+    public Category getCategory(int id) {
+        Category category = new Category();
+        SQLiteDatabase db = Database.getWritableDatabase(context);
+        String selection = Category.ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(id) };
+        Cursor cursor = db.query(
+                "Category",
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            long currentId = cursor.getLong(cursor.getColumnIndexOrThrow(Category.ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(Category.NAME));
+
+            category.setId((int) currentId);
+            category.setName(name);
+        }
+
+        return category;
+    }
+
     @Override
     public List<Category> getAll() {
         List<Category> categories = new ArrayList<>();
@@ -106,4 +132,5 @@ public class CategoryRepository implements CrudRepository<Category> {
 
         return categories;
     }
+
 }
