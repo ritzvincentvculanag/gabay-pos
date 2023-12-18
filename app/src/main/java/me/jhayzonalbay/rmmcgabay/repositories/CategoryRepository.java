@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,9 +44,16 @@ public class CategoryRepository implements CrudRepository<Category> {
         String[] selectionArgs = { String.valueOf(category.getId()) };
 
         values.put(Category.NAME, category.getName());
-        db.update("Category", values, selection, selectionArgs);
 
-        return null;
+        MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context);
+
+        alert.setTitle("Delete category");
+        alert.setMessage("Are you sure you want to delete this category?");
+        alert.setPositiveButton("Yes", ((dialog, which) -> db.update("Category", values, selection, selectionArgs)));
+        alert.setNegativeButton("No", ((dialog, which) -> Toast.makeText(context, "Aborting", Toast.LENGTH_SHORT).show()));
+        alert.show();
+
+        return category;
     }
 
     @Override
@@ -53,7 +62,13 @@ public class CategoryRepository implements CrudRepository<Category> {
         String selection = Category.ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(category.getId()) };
 
-        db.delete("Category", selection, selectionArgs);
+        MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context);
+
+        alert.setTitle("Delete category");
+        alert.setMessage("Are you sure you want to delete this category?");
+        alert.setPositiveButton("Yes", ((dialog, which) -> db.delete("Category", selection, selectionArgs)));
+        alert.setNegativeButton("No", ((dialog, which) -> Toast.makeText(context, "Aborting", Toast.LENGTH_SHORT).show()));
+        alert.show();
 
         return category;
     }
