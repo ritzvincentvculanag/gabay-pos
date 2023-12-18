@@ -14,11 +14,17 @@
         tools:targetApi="31">
         <activity
             android:name=".views.edit.EditUser"
+            android:parentActivityName=".views.Manage"
+            android:label="Manage user"
             android:exported="false" />
         <activity
+            android:label="Manage category"
+            android:parentActivityName=".views.Manage"
             android:name=".views.edit.EditCategory"
             android:exported="false" />
         <activity
+            android:label="Manage product"
+            android:parentActivityName=".views.Manage"
             android:name=".views.edit.EditProduct"
             android:exported="false" />
         <activity
