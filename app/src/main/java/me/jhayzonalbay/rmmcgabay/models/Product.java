@@ -108,6 +108,18 @@ public class Product implements Parcelable {
         this.category = category;
     }
 
+    public void increase() {
+        this.quantity += 1;
+    }
+
+    public void decrease() {
+        if (this.quantity == 1) {
+            this.quantity = 1;
+        }
+
+        this.quantity -= 1;
+    }
+
     @Override
     public int describeContents() {
         return 0;
