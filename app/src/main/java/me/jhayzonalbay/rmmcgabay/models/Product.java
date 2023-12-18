@@ -11,6 +11,7 @@ public class Product implements Parcelable {
 
     private String name;
     private String description;
+    private String barcode;
     private Double price;
     private Integer quantity;
     private Category category;
@@ -19,9 +20,18 @@ public class Product implements Parcelable {
 
     }
 
-    public Product(String name, String description, Double price, Integer quantity, Category category) {
+    public Product(String name, String barcode, Double price, Integer quantity, Category category) {
+        this.name = name;
+        this.barcode = barcode;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
+    }
+
+    public Product(String name, String description, String barcode, Double price, Integer quantity, Category category) {
         this.name = name;
         this.description = description;
+        this.barcode = barcode;
         this.price = price;
         this.quantity = quantity;
         this.category = category;
@@ -35,6 +45,7 @@ public class Product implements Parcelable {
         }
         name = in.readString();
         description = in.readString();
+        barcode = in.readString();
         if (in.readByte() == 0) {
             price = null;
         } else {
@@ -82,6 +93,14 @@ public class Product implements Parcelable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public Double getPrice() {
@@ -135,6 +154,7 @@ public class Product implements Parcelable {
         }
         dest.writeString(name);
         dest.writeString(description);
+        dest.writeString(barcode);
         if (price == null) {
             dest.writeByte((byte) 0);
         } else {
