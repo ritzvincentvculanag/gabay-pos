@@ -3,7 +3,7 @@ package me.jhayzonalbay.rmmcgabay.db;
 import me.jhayzonalbay.rmmcgabay.models.Category;
 import me.jhayzonalbay.rmmcgabay.models.Product;
 import me.jhayzonalbay.rmmcgabay.models.PurchasedItem;
-import me.jhayzonalbay.rmmcgabay.models.Transaction;
+import me.jhayzonalbay.rmmcgabay.models.Invoice;
 import me.jhayzonalbay.rmmcgabay.models.User;
 import me.jhayzonalbay.rmmcgabay.models.UserType;
 
@@ -24,7 +24,7 @@ public class Schema {
             Product.CATEGORY + " INTEGER NOT NULL," +
             Product.NAME + " TEXT NOT NULL," +
             Product.DESCRIPTION + " TEXT NOT NULL," +
-            Product.BARCODE + " TEXT NOT NULL " +
+            Product.BARCODE + " TEXT NOT NULL," +
             Product.PRICE + " REAL NOT NULL," +
             "FOREIGN KEY (" + Product.CATEGORY + ") " +
             "REFERENCES Category (" + Category.ID + ")" +
@@ -42,22 +42,22 @@ public class Schema {
             "REFERENCES UserType (" + UserType.ID + ")" +
             ");";
 
-    public static final String CREATE_TRANSACTION = "CREATE TABLE Transaction (" +
-            Transaction.ID + " INTEGER PRIMARY KEY NOT NULL," +
-            Transaction.USER_ID + " INTEGER NOT NULL," +
-            Transaction.TRANSACTION_DATE + " DATE NOT NULL," +
-            Transaction.SUBTOTAL + " REAL NOT NULL," +
-            "FOREIGN KEY (" + Transaction.USER_ID + ") " +
+    public static final String CREATE_TRANSACTION = "CREATE TABLE Invoice (" +
+            Invoice.ID + " INTEGER PRIMARY KEY NOT NULL," +
+            Invoice.USER_ID + " INTEGER NOT NULL," +
+            Invoice.TRANSACTION_DATE + " DATE NOT NULL," +
+            Invoice.SUBTOTAL + " REAL NOT NULL," +
+            "FOREIGN KEY (" + Invoice.USER_ID + ") " +
             "REFERENCES User (" + User.ID + ")" +
             ");";
 
     public static final String CREATE_PURCHASED_ITEM = "CREATE TABLE PurchasedItem (" +
             PurchasedItem.PRODUCT_ID + " INTEGER NOT NULL," +
-            PurchasedItem.TRANSACTION_ID + " INTEGER NOT NULL" +
+            PurchasedItem.TRANSACTION_ID + " INTEGER NOT NULL," +
             "FOREIGN KEY (" + PurchasedItem.PRODUCT_ID + ")" +
             "REFERENCES Product (" + Product.ID + ")," +
             "FOREIGN KEY (" + PurchasedItem.TRANSACTION_ID + ")" +
-            "REFERENCES Product (" + Transaction.ID + ")" +
+            "REFERENCES Product (" + Invoice.ID + ")" +
             ");";
 
     public static final String DROP_CATEGORY = "DROP TABLE IF EXISTS Category";

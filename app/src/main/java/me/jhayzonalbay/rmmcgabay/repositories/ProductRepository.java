@@ -11,10 +11,6 @@ public class ProductRepository implements CrudRepository<Product> {
 
     public ProductRepository() {
         products = new ArrayList<>();
-        products.add(new Product("Product 1", "Description", 10.00d));
-        products.add(new Product("Product 2", "Description", 12.00d));
-        products.add(new Product("Product 3", "Description", 15.00d));
-        products.add(new Product("Product 4", "Description", 144.00d));
     }
 
     public ProductRepository(List<Product> products) {

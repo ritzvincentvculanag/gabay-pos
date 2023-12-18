@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Transaction implements Parcelable {
+public class Invoice implements Parcelable {
 
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
@@ -22,17 +22,17 @@ public class Transaction implements Parcelable {
     private LocalDate transactionDate;
     private Double subTotal;
 
-    public Transaction() {
+    public Invoice() {
 
     }
 
-    public Transaction(List<Product> products, LocalDate transactionDate, Double subTotal) {
+    public Invoice(List<Product> products, LocalDate transactionDate, Double subTotal) {
         this.products = products;
         this.transactionDate = transactionDate;
         this.subTotal = subTotal;
     }
 
-    protected Transaction(Parcel in) {
+    protected Invoice(Parcel in) {
         id = in.readInt();
         userId = in.readInt();
         products = in.createTypedArrayList(Product.CREATOR);
@@ -43,15 +43,15 @@ public class Transaction implements Parcelable {
         }
     }
 
-    public static final Creator<Transaction> CREATOR = new Creator<Transaction>() {
+    public static final Creator<Invoice> CREATOR = new Creator<Invoice>() {
         @Override
-        public Transaction createFromParcel(Parcel in) {
-            return new Transaction(in);
+        public Invoice createFromParcel(Parcel in) {
+            return new Invoice(in);
         }
 
         @Override
-        public Transaction[] newArray(int size) {
-            return new Transaction[size];
+        public Invoice[] newArray(int size) {
+            return new Invoice[size];
         }
     };
 
