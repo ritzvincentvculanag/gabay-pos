@@ -22,6 +22,11 @@ public class Category implements Parcelable {
         this.name = name;
     }
 
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     protected Category(Parcel in) {
         id = in.readInt();
         name = in.readString();
