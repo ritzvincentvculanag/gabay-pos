@@ -42,6 +42,7 @@ public class Transaction extends Fragment implements Widget, Action, ProductCart
     private Button viewCart;
 
     private FloatingActionButton scan;
+    private FloatingActionButton clear;
 
     private RecyclerView products;
     private ProductAdapter productAdapter;
@@ -70,6 +71,7 @@ public class Transaction extends Fragment implements Widget, Action, ProductCart
         viewCart = view.findViewById(R.id.btn_trans_cart);
 
         scan = view.findViewById(R.id.fab_trans_scan);
+        clear = view.findViewById(R.id.fab_trans_clear);
 
         invoice = new Invoice();
 
@@ -87,6 +89,11 @@ public class Transaction extends Fragment implements Widget, Action, ProductCart
         scanner = new BarcodeScanner(getActivity(), this);
 
         scan.setOnClickListener(e -> scanner.execute());
+        clear.setOnClickListener(e -> {
+            invoice.clear();
+            viewCart.setText(String.valueOf(invoice.getProducts().size()));
+        });
+
         viewCart.setOnClickListener(e -> {
             Intent goToCheckout = new Intent(getContext(), Checkout.class);
             goToCheckout.putExtra("EXT_INVOICE", invoice);

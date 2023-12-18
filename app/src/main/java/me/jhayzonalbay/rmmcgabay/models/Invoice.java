@@ -135,4 +135,8 @@ public class Invoice implements Parcelable {
                 ", subTotal=" + subTotal +
                 '}';
     }
+
+    public void clear() {
+        this.products.clear();
+    }
 }
