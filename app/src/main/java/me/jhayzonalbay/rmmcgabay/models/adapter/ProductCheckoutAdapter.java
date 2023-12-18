@@ -47,11 +47,17 @@ public class ProductCheckoutAdapter extends RecyclerView.Adapter<ProductCheckout
 
         holder.increase.setOnClickListener(e -> {
             product.increase();
+
+            Double updatePrice = product.getQuantity() * product.getPrice();
+            holder.price.setText(String.format(Locale.US, "P%.2f", updatePrice));
             holder.quantity.setText(String.format(Locale.US, "%d", product.getQuantity()));
         });
 
         holder.decrease.setOnClickListener(e -> {
             product.decrease();
+
+            Double updatePrice = product.getQuantity() * product.getPrice();
+            holder.price.setText(String.format(Locale.US, "P%.2f", updatePrice));
             holder.quantity.setText(String.format(Locale.US, "%d", product.getQuantity()));
         });
     }
