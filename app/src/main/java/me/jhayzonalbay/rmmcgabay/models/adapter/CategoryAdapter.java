@@ -13,14 +13,14 @@ import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Category;
-import me.jhayzonalbay.rmmcgabay.utils.CategoryItem;
+import me.jhayzonalbay.rmmcgabay.utils.Item;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> {
 
     private List<Category> categories;
-    private CategoryItem categoryItem;
+    private Item categoryItem;
 
-    public CategoryAdapter(List<Category> categories, CategoryItem categoryItem) {
+    public CategoryAdapter(List<Category> categories, Item categoryItem) {
         this.categories = categories;
         this.categoryItem = categoryItem;
     }
@@ -52,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private Button edit;
         private Button delete;
 
-        public CategoryHolder(@NonNull View view, CategoryItem categoryItem) {
+        public CategoryHolder(@NonNull View view, Item categoryItem) {
             super(view);
 
             name = view.findViewById(R.id.tv_cat_name);

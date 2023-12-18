@@ -19,10 +19,10 @@ import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Category;
 import me.jhayzonalbay.rmmcgabay.models.adapter.CategoryAdapter;
 import me.jhayzonalbay.rmmcgabay.repositories.CategoryRepository;
-import me.jhayzonalbay.rmmcgabay.utils.CategoryItem;
+import me.jhayzonalbay.rmmcgabay.utils.Item;
 import me.jhayzonalbay.rmmcgabay.views.edit.EditCategory;
 
-public class ManageCategory extends Fragment implements CategoryItem {
+public class ManageCategory extends Fragment implements Item {
 
     private View view;
 
