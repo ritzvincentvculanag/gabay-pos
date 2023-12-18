@@ -63,7 +63,7 @@ public class Transaction extends Fragment implements Widget, Action {
 
         scan = view.findViewById(R.id.fab_trans_scan);
 
-        productRepository = new ProductRepository();
+        productRepository = new ProductRepository(getContext());
         productList = productRepository.getAll();
         productAdapter = new ProductAdapter(productList);
 
