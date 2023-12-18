@@ -13,20 +13,23 @@
         android:theme="@style/Theme.RmmcGabay"
         tools:targetApi="31">
         <activity
+            android:name=".views.Checkout"
+            android:exported="false" />
+        <activity
             android:name=".views.edit.EditUser"
-            android:parentActivityName=".views.Manage"
+            android:exported="false"
             android:label="Manage user"
-            android:exported="false" />
+            android:parentActivityName=".views.Manage" />
         <activity
-            android:label="Manage category"
-            android:parentActivityName=".views.Manage"
             android:name=".views.edit.EditCategory"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Manage category"
+            android:parentActivityName=".views.Manage" />
         <activity
-            android:label="Manage product"
-            android:parentActivityName=".views.Manage"
             android:name=".views.edit.EditProduct"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Manage product"
+            android:parentActivityName=".views.Manage" />
         <activity
             android:name=".views.Manage"
             android:exported="false" />
