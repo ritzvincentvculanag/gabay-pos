@@ -56,11 +56,16 @@ public class ManageCategory extends Fragment implements CategoryItem {
 
     @Override
     public void edit(int position) {
-        // TODO: Implement edit
+        Category categoryToUpdate = categories.get(position);
+        Intent goToEditCategory = new Intent(getContext(), EditCategory.class);
+        goToEditCategory.putExtra("EXT_CATEGORY", categoryToUpdate);
+        startActivity(goToEditCategory);
     }
 
     @Override
     public void delete(int position) {
-
+        Category categoryToDelete = categories.get(position);
+        repository.delete(categoryToDelete);
+        categoryAdapter.notifyDataSetChanged();
     }
 }
