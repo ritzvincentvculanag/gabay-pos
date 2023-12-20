@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
@@ -43,7 +44,7 @@ public class Hero extends AppCompatActivity {
         });
 
         manage.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Manage.class);
+            Intent intent = new Intent(this, History.class);
             startActivity(intent);
         });
     }

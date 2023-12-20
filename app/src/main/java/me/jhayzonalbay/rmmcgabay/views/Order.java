@@ -84,6 +84,8 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
     @Override
     public void initActions() {
         filter.setOnItemClickListener((parent, view, position, id) -> {
+            productList = productRepository.getAll();
+
             if (position == 0) {
                 productAdapter.setProducts(productRepository.getAll());
                 return;
@@ -94,6 +96,8 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
                     .filter(product -> product.getCategory().getName().equals(selectedCategory))
                     .collect(Collectors.toList());
 
+            productList.clear();
+            productList.addAll(filteredProducts);
             productAdapter.setProducts(filteredProducts);
         });
 
@@ -111,7 +115,7 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
 
     private void setupProductCategories() {
         List<Category> categories = categoryRepository.getAll();
-        List<String>  categoriesName = new ArrayList<>();
+        List<String> categoriesName = new ArrayList<>();
         categoriesName.add("All");
         categoriesName.addAll(categories.stream().map(Category::getName).collect(Collectors.toList()));
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(

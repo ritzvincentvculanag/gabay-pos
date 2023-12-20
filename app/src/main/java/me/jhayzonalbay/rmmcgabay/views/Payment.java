@@ -19,6 +19,7 @@ import me.jhayzonalbay.rmmcgabay.models.Invoice;
 import me.jhayzonalbay.rmmcgabay.models.PurchasedItem;
 import me.jhayzonalbay.rmmcgabay.repositories.InvoiceRepository;
 import me.jhayzonalbay.rmmcgabay.repositories.TransactionRepository;
+import me.jhayzonalbay.rmmcgabay.utils.Gabay;
 
 public class Payment extends AppCompatActivity {
 
@@ -32,12 +33,14 @@ public class Payment extends AppCompatActivity {
 
     private InvoiceRepository invoiceRepository;
     private TransactionRepository transactionRepository;
+    private Gabay gabay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+        gabay = new Gabay(getSharedPreferences("gabay", MODE_PRIVATE));
         total = findViewById(R.id.tv_payment_total);
 
         amount = findViewById(R.id.til_payment_amount);
@@ -70,6 +73,7 @@ public class Payment extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             invoice.setTransactionDate(LocalDate.now());
         }
+        invoice.setUserId(gabay.getInt("USER_ID"));
         Invoice newInvoice = invoiceRepository.insert(invoice);
         newInvoice.getProducts().forEach(product -> {
             PurchasedItem purchasedItem = new PurchasedItem();

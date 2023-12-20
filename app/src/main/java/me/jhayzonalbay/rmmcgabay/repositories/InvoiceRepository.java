@@ -2,8 +2,13 @@ package me.jhayzonalbay.rmmcgabay.repositories;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.util.Log;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.db.Database;
@@ -60,8 +65,34 @@ public class InvoiceRepository implements CrudRepository<Invoice> {
         return invoice;
     }
 
-    @Override
+    // Get all invoices
     public List<Invoice> getAll() {
-        return null;
+        SQLiteDatabase db = Database.getReadableDatabase(context);
+        List<Invoice> invoices = new ArrayList<>();
+        Cursor cursor = db.query(
+                "Invoice",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            Invoice invoice = new Invoice();
+
+            invoice.setId(cursor.getInt(cursor.getColumnIndexOrThrow(Invoice.ID)));
+            invoice.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow(Invoice.USER_ID)));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                invoice.setTransactionDate(LocalDate.parse(cursor.getString(cursor.getColumnIndexOrThrow(Invoice.TRANSACTION_DATE))));
+            }
+            invoice.setSubTotal(cursor.getDouble(cursor.getColumnIndexOrThrow(Invoice.SUBTOTAL)));
+
+            invoices.add(invoice);
+            Log.d("RICHIE", String.format("INVOICE: %s", invoice));
+        }
+
+        return invoices;
     }
 }

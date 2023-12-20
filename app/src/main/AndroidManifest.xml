@@ -13,19 +13,24 @@
         android:theme="@style/Theme.RmmcGabay"
         tools:targetApi="31">
         <activity
-            android:name=".views.Account"
-            android:label="Account"
             android:parentActivityName=".views.Hero"
+            android:label="Transaction History"
+            android:name=".views.History"
             android:exported="false" />
+        <activity
+            android:name=".views.Account"
+            android:exported="false"
+            android:label="Account"
+            android:parentActivityName=".views.Hero" />
         <activity
             android:name=".views.Order"
-            android:parentActivityName=".views.Hero"
+            android:exported="false"
             android:label="Order"
-            android:exported="false" />
+            android:parentActivityName=".views.Hero" />
         <activity
             android:name=".views.Payment"
-            android:label="Payment"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Payment" />
         <activity
             android:name=".views.Checkout"
             android:exported="false"
@@ -47,9 +52,9 @@
             android:parentActivityName=".views.Manage" />
         <activity
             android:name=".views.Manage"
-            android:parentActivityName=".views.Hero"
             android:exported="false"
-            android:label="Manage System" />
+            android:label="Manage System"
+            android:parentActivityName=".views.Hero" />
         <activity
             android:name=".views.Hero"
             android:exported="false"
