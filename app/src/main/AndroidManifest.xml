@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RmmcGabay"
         tools:targetApi="31">
         <activity
+            android:name=".views.Account"
+            android:exported="false" />
+        <activity
             android:name=".views.Order"
             android:exported="false" />
         <activity
