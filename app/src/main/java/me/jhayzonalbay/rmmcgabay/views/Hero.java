@@ -5,10 +5,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.db.Database;
@@ -17,21 +19,28 @@ import me.jhayzonalbay.rmmcgabay.utils.Widget;
 
 public class Hero extends AppCompatActivity {
 
-    // Widgets
-    private BottomNavigationView navigation;
-    private NavHostFragment content;
+    private MaterialCardView order;
+    private MaterialCardView transactions;
+    private MaterialCardView account;
+    private MaterialCardView manage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero);
 
-        navigation = findViewById(R.id.bnv_hero);
-        content = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_hero);
+        order = findViewById(R.id.cv_hero_order);
+        transactions = findViewById(R.id.cv_hero_transactions);
+        account = findViewById(R.id.cv_hero_account);
+        manage = findViewById(R.id.cv_hero_manage);
 
-        if (content != null) {
-            NavigationUI.setupWithNavController(navigation , content.getNavController());
-        }
+        order.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Order.class);
+            startActivity(intent);
+        });
+
+        transactions.setOnClickListener(v -> {
+        });
     }
 
 }

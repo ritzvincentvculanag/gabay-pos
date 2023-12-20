@@ -32,7 +32,6 @@ android {
 }
 
 dependencies {
-    implementation("com.android.support:cardview-v7:28.0.0")
     val nav_version = "2.7.6"
 
     implementation("androidx.navigation:navigation-fragment:$nav_version")
