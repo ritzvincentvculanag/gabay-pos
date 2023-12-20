@@ -23,6 +23,7 @@
             android:id="@+id/actv_order_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:contentDescription="Filter Order"
             android:hint="Filter" />
     </com.google.android.material.textfield.TextInputLayout>

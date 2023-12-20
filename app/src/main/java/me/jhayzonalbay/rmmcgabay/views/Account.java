@@ -2,6 +2,8 @@ package me.jhayzonalbay.rmmcgabay.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.User;
 import me.jhayzonalbay.rmmcgabay.repositories.UserRepository;
 import me.jhayzonalbay.rmmcgabay.utils.Gabay;
+import me.jhayzonalbay.rmmcgabay.utils.Messenger;
 
 public class Account extends AppCompatActivity {
 
@@ -34,21 +37,48 @@ public class Account extends AppCompatActivity {
         gabay = new Gabay(this.getSharedPreferences("gabay", MODE_PRIVATE));
         fullName.setText(gabay.getString("USER_NAME"));
         role.setText(gabay.getString("USER_TYPE"));
-
+        Context context = this;
         logout.setOnClickListener(v -> {
-            gabay.clear();
-            Intent goToLogin = new Intent(this, me.jhayzonalbay.rmmcgabay.views.Login.class);
-            startActivity(goToLogin);
-            finish();
+
+            Messenger.showAlertDialog(this, "Logout", "Do you want to logout", "Yes", "No",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            gabay.clear();
+                            Intent goToLogin = new Intent(context, Login.class);
+                            startActivity(goToLogin);
+                            finish();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+
+
         });
 
         delete.setOnClickListener(v -> {
-            UserRepository userRepository = new UserRepository(this);
-            userRepository.delete(userRepository.getUser(gabay.getInt("USER_ID")));
-            gabay.clear();
-            Intent goToLogin = new Intent(this, me.jhayzonalbay.rmmcgabay.views.Login.class);
-            startActivity(goToLogin);
-            finish();
+
+            Messenger.showAlertDialog(this, "Delete Account", "Do you want to delete this account?", "Yes", "No",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            UserRepository userRepository = new UserRepository(context);
+                            userRepository.delete(userRepository.getUser(gabay.getInt("USER_ID")));
+                            gabay.clear();
+                            Intent goToLogin = new Intent(context, me.jhayzonalbay.rmmcgabay.views.Login.class);
+                            startActivity(goToLogin);
+                            finish();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+
         });
     }
 }

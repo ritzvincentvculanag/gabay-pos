@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,7 +23,7 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
     private Item item;
 
     public ManageProductAdapter(List<Product> products, Item item) {
-        this.products = products;
+        this.products = new ArrayList<>(products);
         this.item = item;
     }
 
@@ -47,6 +48,12 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    public void SearchProduct(List<Product> filterProduct){
+        this.products.clear();
+        this.products.addAll(filterProduct);
+        notifyDataSetChanged();
     }
 
     public static class ManageProductHolder extends RecyclerView.ViewHolder {

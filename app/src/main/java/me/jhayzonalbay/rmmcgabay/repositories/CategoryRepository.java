@@ -27,15 +27,30 @@ public class CategoryRepository implements CrudRepository<Category> {
     @Override
     public Category insert(Category category) {
         SQLiteDatabase db = Database.getWritableDatabase(context);
-        ContentValues values = new ContentValues();
 
-        values.put(Category.NAME, category.getName());
-        long categoryId = db.insert("Category", null, values);
-        category.setId((int) categoryId);
+        if (!isCategoryExists(db, category.getName())) {
+            ContentValues values = new ContentValues();
+            values.put(Category.NAME, category.getName());
 
-        Toast.makeText(context, "Category added!", Toast.LENGTH_SHORT).show();
+            long categoryId = db.insert("Category", null, values);
+            category.setId((int) categoryId);
+
+            Toast.makeText(context, "Category added!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Category already exists!", Toast.LENGTH_SHORT).show();
+        }
 
         return category;
+    }
+
+    private boolean isCategoryExists(SQLiteDatabase db, String categoryName) {
+        String query = "SELECT " + Category.NAME +
+                " FROM Category WHERE LOWER(" + Category.NAME + ") = LOWER(?)";
+        String[] selectionArgs = { categoryName };
+
+        try (Cursor cursor = db.rawQuery(query, selectionArgs)) {
+            return cursor.getCount() > 0;
+        }
     }
 
     @Override

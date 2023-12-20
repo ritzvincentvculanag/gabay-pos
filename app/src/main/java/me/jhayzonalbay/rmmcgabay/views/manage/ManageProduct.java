@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.R;
@@ -67,12 +70,40 @@ public class ManageProduct extends Fragment implements Widget, Item {
     public void initWidgets() {
         addProduct = view.findViewById(R.id.fab_mproducts_add);
         addProduct.setOnClickListener(e -> startActivity(new Intent(getContext(), EditProduct.class)));
-
         productRepository = new ProductRepository(getContext());
         products = productRepository.getAll();
         productAdapter = new ManageProductAdapter(products, this);
         productsView = view.findViewById(R.id.rv_mproducts);
         productsView.setAdapter(productAdapter);
         productsView.setLayoutManager(new LinearLayoutManager(getContext()));
+        search = view.findViewById(R.id.til_mproduct_search);
+        search.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                List<Product> filterProduct = new ArrayList<>();
+                filterProduct.clear();
+                if(search.getEditText().getText().toString().isEmpty()){
+                    filterProduct.addAll(products);
+                }else {
+                    for(Product product: products){
+                        if(product.getName().toLowerCase().contains(search.getEditText().getText().toString().toLowerCase())){
+                            filterProduct.add(product);
+                        }
+                    }
+                }
+                productAdapter.SearchProduct(filterProduct);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 }
