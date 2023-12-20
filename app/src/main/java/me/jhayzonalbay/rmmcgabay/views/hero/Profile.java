@@ -71,7 +71,7 @@ public class Profile extends Fragment implements Widget {
     }
 
     private void editProfile(View view) {
-        User user = userRepository.getUser(String.valueOf(gabay.getInt("USER_ID")));
+        User user = userRepository.getUser(gabay.getInt("USER_ID"));
         Intent intent = new Intent(getContext(), EditUser.class);
         intent.putExtra("EXT_USER", user);
         startActivity(intent);

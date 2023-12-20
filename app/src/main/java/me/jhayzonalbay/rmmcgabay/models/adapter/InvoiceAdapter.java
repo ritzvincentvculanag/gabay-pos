@@ -39,7 +39,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.InvoiceH
         Invoice invoice = invoices.get(position);
         User user = userRepository.getUser(invoice.getUserId());
 
-        if (user == null) {
+        if (user != null) {
             holder.clerk.setText(String.format("%s", user.getUsername()));
         } else {
             holder.clerk.setText("Unkown");

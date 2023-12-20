@@ -12,6 +12,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ import me.jhayzonalbay.rmmcgabay.utils.ProductCart;
 public class Order extends AppCompatActivity implements ProductCart, Action {
 
     private Button cart;
+    private FloatingActionButton scan;
     private AutoCompleteTextView filter;
     private RecyclerView products;
     private ProductAdapter productAdapter;
@@ -46,14 +49,15 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
+        scanner = new BarcodeScanner(this, this, invoice, cart);
         productRepository = new ProductRepository(this);
         categoryRepository = new CategoryRepository(this);
-        scanner = new BarcodeScanner(this, this);
         invoice = new Invoice();
 
         productList = productRepository.getAll();
         productAdapter = new ProductAdapter(productList, this);
 
+        scan = findViewById(R.id.fab_order_scan);
         cart = findViewById(R.id.btn_order_cart);
         filter = findViewById(R.id.actv_order_filter);
         products = findViewById(R.id.rv_order_products);
@@ -83,6 +87,8 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
 
     @Override
     public void initActions() {
+        scan.setOnClickListener(e -> scanner.execute());
+
         filter.setOnItemClickListener((parent, view, position, id) -> {
             productList = productRepository.getAll();
 
