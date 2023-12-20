@@ -35,6 +35,11 @@ public class Hero extends AppCompatActivity {
         account = findViewById(R.id.cv_hero_account);
         manage = findViewById(R.id.cv_hero_manage);
 
+        account.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Account.class);
+            startActivity(intent);
+        });
+
         order.setOnClickListener(v -> {
             Intent intent = new Intent(this, Order.class);
             startActivity(intent);
