@@ -59,12 +59,17 @@
             <Button
                 android:id="@+id/btn_product_decrease"
                 style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:contentDescription="Decrease amount"
+                android:textAlignment="center"
                 app:icon="@drawable/ic_remove"
+                app:iconGravity="textStart"
+                app:layout_constraintEnd_toStartOf="@+id/tv_product_quantity"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_product_price" />
 
@@ -77,21 +82,24 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_product_decrease"
+                app:layout_constraintEnd_toStartOf="@+id/btn_product_increase"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/btn_product_decrease"
                 app:layout_constraintTop_toTopOf="@+id/btn_product_decrease" />
 
             <Button
                 android:id="@+id/btn_product_increase"
                 style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="Increase amount"
                 app:icon="@drawable/ic_add"
+                app:iconGravity="textStart"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_product_decrease"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/tv_product_quantity"
                 app:layout_constraintTop_toTopOf="@+id/btn_product_decrease" />
 
@@ -100,13 +108,16 @@
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Add"
                 app:icon="@drawable/ic_cart"
+                app:iconGravity="textStart"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/btn_product_increase"
-                app:layout_constraintStart_toStartOf="@+id/btn_product_decrease"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_product_decrease"
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
