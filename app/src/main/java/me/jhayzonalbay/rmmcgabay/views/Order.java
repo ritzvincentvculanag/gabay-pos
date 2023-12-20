@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,6 +81,11 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
     @Override
     public void initActions() {
         filter.setOnItemClickListener((parent, view, position, id) -> {
+            if (position == 0) {
+                productAdapter.setProducts(productRepository.getAll());
+                return;
+            }
+
             String selectedCategory = filter.getText().toString();
             List<Product> filteredProducts = productList.stream()
                     .filter(product -> product.getCategory().getName().equals(selectedCategory))
@@ -86,11 +93,24 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
 
             productAdapter.setProducts(filteredProducts);
         });
+
+        cart.setOnClickListener(e -> {
+            if (invoice.getProducts().isEmpty()) {
+                Toast.makeText(this, "Cart is empty!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent goToCheckout = new Intent(this, Checkout.class);
+            goToCheckout.putExtra("EXT_INVOICE", invoice);
+            startActivity(goToCheckout);
+        });
     }
 
     private void setupProductCategories() {
         List<Category> categories = categoryRepository.getAll();
-        List<String> categoriesName = categories.stream().map(Category::getName).collect(Collectors.toList());
+        List<String>  categoriesName = new ArrayList<>();
+        categoriesName.add("All");
+        categoriesName.addAll(categories.stream().map(Category::getName).collect(Collectors.toList()));
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(
                 this,
                 com.google.android.material.R.layout.support_simple_spinner_dropdown_item,
