@@ -141,6 +141,7 @@ public class Product implements Parcelable {
     public void decrease() {
         if (this.quantity == 1) {
             this.quantity = 1;
+            return;
         }
 
         this.quantity -= 1;

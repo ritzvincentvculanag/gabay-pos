@@ -18,7 +18,7 @@ import me.jhayzonalbay.rmmcgabay.utils.ProductCart;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
 
-    private final List<Product> products;
+    private List<Product> products;
     private final ProductCart productCart;
 
     public ProductAdapter(List<Product> products, ProductCart productCart) {
@@ -60,8 +60,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     }
 
     public void setProducts(List<Product> productList) {
-        products.clear();
-        products.addAll(productList);
+        this.products = productList;
         notifyDataSetChanged();
     }
 

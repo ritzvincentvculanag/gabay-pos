@@ -41,6 +41,11 @@ public class Hero extends AppCompatActivity {
 
         transactions.setOnClickListener(v -> {
         });
+
+        manage.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Manage.class);
+            startActivity(intent);
+        });
     }
 
 }
