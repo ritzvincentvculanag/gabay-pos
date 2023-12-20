@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import me.jhayzonalbay.rmmcgabay.R;
+import me.jhayzonalbay.rmmcgabay.actions.BarcodeScanner;
 import me.jhayzonalbay.rmmcgabay.models.Category;
 import me.jhayzonalbay.rmmcgabay.models.Product;
 import me.jhayzonalbay.rmmcgabay.repositories.CategoryRepository;
@@ -32,6 +33,7 @@ public class EditProduct extends AppCompatActivity implements Widget {
     private TextInputLayout description;
     private TextInputLayout barcode;
     private TextInputLayout price;
+    private TextInputLayout quantity;
     private AutoCompleteTextView category;
 
     private Button scanBarcode;
@@ -41,6 +43,7 @@ public class EditProduct extends AppCompatActivity implements Widget {
     private CategoryRepository categoryRepository;
 
     private Map<String, Category> categoryMap;
+    private BarcodeScanner barcodeScanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +62,20 @@ public class EditProduct extends AppCompatActivity implements Widget {
         category = findViewById(R.id.act_product_category);
         barcode = findViewById(R.id.til_product_barcode);
         price = findViewById(R.id.til_product_price);
+        quantity = findViewById(R.id.til_quantity);
 
         scanBarcode = findViewById(R.id.btn_product_scan);
         proceed = findViewById(R.id.btn_product_edit);
+
+        barcodeScanner = new BarcodeScanner(this, this, barcode);
         proceed.setOnClickListener(this::proceedAddAction);
+        scanBarcode.setOnClickListener(e -> barcodeScanner.execute());
 
         productRepository = new ProductRepository(this);
         categoryRepository = new CategoryRepository(this);
         categoryMap = new HashMap<>();
     }
+
 
     private void proceedAddAction(View view) {
         if (!Validator.fieldsAreValid(name, description, price)) {
@@ -83,13 +91,15 @@ public class EditProduct extends AppCompatActivity implements Widget {
         String productDescription = Miner.getContent(description);
         String productBarcode = Miner.getContent(barcode);
         Double productPrice = Double.parseDouble(Miner.getContent(price));
+        Integer productQuantity = Integer.parseInt(Miner.getContent(quantity));
         Category productCategory = categoryMap.get(category.getText().toString());
         Product product = new Product(
                 productName,
                 productDescription,
                 productBarcode,
                 productPrice,
-                productCategory
+                productCategory,
+                productQuantity
         );
 
         productRepository.insert(product);
@@ -119,6 +129,7 @@ public class EditProduct extends AppCompatActivity implements Widget {
         product.setBarcode(productBarcode);
         product.setPrice(productPrice);
         product.setCategory(productCategory);
+        product.setQuantity(product.getQuantity());
 
         productRepository.update(product);
         Validator.clearFields(name, description, price);
@@ -149,6 +160,7 @@ public class EditProduct extends AppCompatActivity implements Widget {
         price.getEditText().setText(String.valueOf(product.getPrice()));
         barcode.getEditText().setText(product.getBarcode());
         category.setText(product.getCategory().getName());
+        quantity.getEditText().setText(product.getQuantity().toString());
         proceed.setText("Edit product");
         proceed.setOnClickListener(this::proceedEditAction);
     }

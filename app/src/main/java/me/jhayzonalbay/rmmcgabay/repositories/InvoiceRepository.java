@@ -2,12 +2,21 @@ package me.jhayzonalbay.rmmcgabay.repositories;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.db.Database;
+import me.jhayzonalbay.rmmcgabay.models.Category;
 import me.jhayzonalbay.rmmcgabay.models.Invoice;
+import me.jhayzonalbay.rmmcgabay.models.Product;
+import me.jhayzonalbay.rmmcgabay.models.PurchasedItem;
 
 public class InvoiceRepository implements CrudRepository<Invoice> {
 
@@ -62,6 +71,39 @@ public class InvoiceRepository implements CrudRepository<Invoice> {
 
     @Override
     public List<Invoice> getAll() {
-        return null;
+
+        List<Invoice> products = new ArrayList<>();
+        SQLiteDatabase db = Database.getReadableDatabase(context);
+        Cursor cursor = db.query(
+                "Invoice",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            Integer id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            Integer user_id = cursor.getInt(cursor.getColumnIndexOrThrow(Invoice.USER_ID));
+            long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow(Invoice.TRANSACTION_DATE));
+
+            // Convert long to Date
+            Instant instant = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                instant = Instant.ofEpochMilli(dateLong);
+            }
+            LocalDate localDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+
+
+            Double subtotal = cursor.getDouble(cursor.getColumnIndexOrThrow(Invoice.SUBTOTAL));
+
+            products.add(new Invoice(null, localDate, subtotal));
+        }
+        return products;
     }
 }

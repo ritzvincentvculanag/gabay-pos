@@ -12,7 +12,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.db.Database;
+import me.jhayzonalbay.rmmcgabay.models.Product;
 import me.jhayzonalbay.rmmcgabay.models.UserType;
+import me.jhayzonalbay.rmmcgabay.repositories.ProductRepository;
+import me.jhayzonalbay.rmmcgabay.utils.NotificationUtils;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
 
 public class Hero extends AppCompatActivity {
@@ -20,17 +23,25 @@ public class Hero extends AppCompatActivity {
     // Widgets
     private BottomNavigationView navigation;
     private NavHostFragment content;
+    private ProductRepository productRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero);
-
+        productRepository = new ProductRepository(this);
         navigation = findViewById(R.id.bnv_hero);
         content = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_hero);
 
         if (content != null) {
             NavigationUI.setupWithNavController(navigation , content.getNavController());
+        }
+        sendNotify();
+    }
+
+    private void sendNotify() {
+        for(Product product: productRepository.getAll()){
+            NotificationUtils.showLowStockNotification(this, product);
         }
     }
 

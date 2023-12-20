@@ -26,6 +26,7 @@ public class Schema {
             Product.DESCRIPTION + " TEXT NOT NULL," +
             Product.BARCODE + " TEXT NOT NULL," +
             Product.PRICE + " REAL NOT NULL," +
+            Product.QUANTITY + " INTEGER NOT NULL," +
             "FOREIGN KEY (" + Product.CATEGORY + ") " +
             "REFERENCES Category (" + Category.ID + ")" +
             ");";
@@ -54,6 +55,7 @@ public class Schema {
     public static final String CREATE_PURCHASED_ITEM = "CREATE TABLE PurchasedItem (" +
             PurchasedItem.PRODUCT_ID + " INTEGER NOT NULL," +
             PurchasedItem.TRANSACTION_ID + " INTEGER NOT NULL," +
+            PurchasedItem.QUANTITY + " INTEGER NOT NULL," +
             "FOREIGN KEY (" + PurchasedItem.PRODUCT_ID + ")" +
             "REFERENCES Product (" + Product.ID + ")," +
             "FOREIGN KEY (" + PurchasedItem.TRANSACTION_ID + ")" +

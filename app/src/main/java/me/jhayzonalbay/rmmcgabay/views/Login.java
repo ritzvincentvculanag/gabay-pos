@@ -1,8 +1,13 @@
 package me.jhayzonalbay.rmmcgabay.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,8 +56,18 @@ public class Login extends AppCompatActivity implements Widget {
             startActivity(goToDashboard);
             finish();
         }
+        initPermission();
 
         initWidgets();
+    }
+
+    private void initPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (ContextCompat.checkSelfPermission(Login.this,
+                    Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Login.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
     }
 
     @Override
@@ -81,9 +96,11 @@ public class Login extends AppCompatActivity implements Widget {
             gabay.save("IS_ADMIN", user.getUserType().getId() == 1);
             gabay.save("IS_LOGGED_IN", true);
 
+
             Intent goToDashboard = new Intent(this, Hero.class);
             startActivity(goToDashboard);
             finish();
+
         } else {
             Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
         }

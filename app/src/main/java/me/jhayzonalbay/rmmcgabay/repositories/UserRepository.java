@@ -161,4 +161,43 @@ public class UserRepository implements CrudRepository<User> {
 
         return user;
     }
+
+    public User getUser(String userId) {
+        User user = new User();
+        SQLiteDatabase db = Database.getWritableDatabase(context);
+        String selection = User.USERNAME + " LIKE ? ";
+        String[] selectionArgs = { userId };
+        Cursor cursor = db.query(
+                "User",
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(User.ID));
+            String firstName = cursor.getString(cursor.getColumnIndexOrThrow(User.FIRST_NAME));
+            String lastName = cursor.getString(cursor.getColumnIndexOrThrow(User.LAST_NAME));
+            String middleName = cursor.getString(cursor.getColumnIndexOrThrow(User.MIDDLE_NAME));
+            String currentUsername = cursor.getString(cursor.getColumnIndexOrThrow(User.USERNAME));
+            String currentPassword = cursor.getString(cursor.getColumnIndexOrThrow(User.PASSWORD));
+            int userTypeId = cursor.getInt(cursor.getColumnIndexOrThrow(User.USER_TYPE));
+
+            UserTypeRepository userTypeRepository = new UserTypeRepository(context);
+            UserType userType = userTypeRepository.getUserType(userTypeId);
+
+            user.setId((int) id);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setMiddleName(middleName);
+            user.setUsername(currentUsername);
+            user.setPassword(currentPassword);
+            user.setUserType(userType);
+        }
+
+        return user;
+    }
 }
