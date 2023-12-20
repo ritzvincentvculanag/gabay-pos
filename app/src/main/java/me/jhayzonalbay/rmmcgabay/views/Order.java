@@ -69,7 +69,10 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
         Product productToAdd = productList.get(position);
 
         if (invoice.getProducts().contains(productToAdd)) {
-            Toast.makeText(this, "Product is already in cart!", Toast.LENGTH_SHORT).show();
+            int index = invoice.getProducts().indexOf(productToAdd);
+            invoice.getProducts().get(index).increase();
+
+            Toast.makeText(this, "Increasing amount in cart!", Toast.LENGTH_SHORT).show();
             return;
         }
 

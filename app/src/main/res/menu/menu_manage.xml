@@ -2,12 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/manageDashboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/ic_dashboard"
-        android:title="Dashboard" />
-    <item
         android:id="@+id/manageProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
