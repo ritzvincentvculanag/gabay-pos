@@ -13,6 +13,7 @@ public class Product implements Parcelable {
     public static final String DESCRIPTION = "description";
     public static final String BARCODE = "barcode";
     public static final String PRICE = "price";
+    public static final String QUANTITY = "quantity";
 
     private Integer id;
 
@@ -35,13 +36,13 @@ public class Product implements Parcelable {
         this.quantity = 1;
     }
 
-    public Product(String name, String description, String barcode, Double price, Category category) {
+    public Product(String name, String description, String barcode, Double price, Category category, Integer quantity) {
         this.name = name;
         this.description = description;
         this.barcode = barcode;
         this.price = price;
         this.category = category;
-        this.quantity = 1;
+        this.quantity = quantity;
     }
 
     protected Product(Parcel in) {

@@ -9,12 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import me.jhayzonalbay.rmmcgabay.R;
+import me.jhayzonalbay.rmmcgabay.models.User;
+import me.jhayzonalbay.rmmcgabay.repositories.UserRepository;
 import me.jhayzonalbay.rmmcgabay.utils.Gabay;
 import me.jhayzonalbay.rmmcgabay.utils.Widget;
 import me.jhayzonalbay.rmmcgabay.views.Manage;
+import me.jhayzonalbay.rmmcgabay.views.edit.EditUser;
 
 public class Profile extends Fragment implements Widget {
 
@@ -28,12 +32,13 @@ public class Profile extends Fragment implements Widget {
     private Button logout;
 
     private Gabay gabay;
+    private UserRepository userRepository;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        userRepository = new UserRepository(getContext());
         initWidgets();
 
         return view;
@@ -47,6 +52,7 @@ public class Profile extends Fragment implements Widget {
         fullName = view.findViewById(R.id.tv_profile_name);
         role = view.findViewById(R.id.tv_profile_role);
         editProfile = view.findViewById(R.id.btn_profile_edit);
+        editProfile.setOnClickListener(this::editProfile);
         logout = view.findViewById(R.id.btn_profile_logout);
         logout.setOnClickListener(v -> {
             gabay.clear();
@@ -61,6 +67,14 @@ public class Profile extends Fragment implements Widget {
 
         editProfile.setVisibility(gabay.getBool("IS_ADMIN") ? View.VISIBLE : View.GONE);
         manageSystem.setVisibility(gabay.getBool("IS_ADMIN") ? View.VISIBLE : View.GONE);
+
+    }
+
+    private void editProfile(View view) {
+        User user = userRepository.getUser(String.valueOf(gabay.getInt("USER_ID")));
+        Intent intent = new Intent(getContext(), EditUser.class);
+        intent.putExtra("EXT_USER", user);
+        startActivity(intent);
 
     }
 

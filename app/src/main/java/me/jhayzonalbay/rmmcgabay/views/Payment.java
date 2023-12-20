@@ -13,9 +13,11 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.R;
 import me.jhayzonalbay.rmmcgabay.models.Invoice;
+import me.jhayzonalbay.rmmcgabay.models.Product;
 import me.jhayzonalbay.rmmcgabay.models.PurchasedItem;
 import me.jhayzonalbay.rmmcgabay.repositories.InvoiceRepository;
 import me.jhayzonalbay.rmmcgabay.repositories.TransactionRepository;
@@ -79,6 +81,7 @@ public class Payment extends AppCompatActivity {
             PurchasedItem purchasedItem = new PurchasedItem();
             purchasedItem.setProductId(product.getId());
             purchasedItem.setTransactionId(newInvoice.getId());
+            purchasedItem.setQuantity(product.getQuantity());
 
             transactionRepository.insert(purchasedItem);
         });
@@ -86,4 +89,6 @@ public class Payment extends AppCompatActivity {
         startActivity(goToHero);
         finish();
     }
+
+
 }

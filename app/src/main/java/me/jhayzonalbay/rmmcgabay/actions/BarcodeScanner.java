@@ -1,15 +1,20 @@
 package me.jhayzonalbay.rmmcgabay.actions;
 
 import android.content.Context;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputLayout;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanIntentResult;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+import me.jhayzonalbay.rmmcgabay.models.Invoice;
+import me.jhayzonalbay.rmmcgabay.models.Product;
+import me.jhayzonalbay.rmmcgabay.repositories.ProductRepository;
 import me.jhayzonalbay.rmmcgabay.utils.Executable;
 
 public class BarcodeScanner implements Executable {
@@ -18,11 +23,26 @@ public class BarcodeScanner implements Executable {
     private ActivityResultCaller caller;
     private ActivityResultLauncher<ScanOptions> launcher;
 
-    public BarcodeScanner(Context context, ActivityResultCaller caller) {
+    private Invoice invoice;
+    private ProductRepository productRepository;
+    private TextInputLayout tfBarCode;
+    private Button viewCart;
+
+    public BarcodeScanner(Context context, ActivityResultCaller caller, Invoice invoice, Button viewCart) {
         this.context = context;
         this.caller = caller;
-
+        this.productRepository = new ProductRepository(context);
+        this.invoice = invoice;
+        this.viewCart = viewCart;
         launcher = caller.registerForActivityResult(new ScanContract(), this::launcherResult);
+    }
+
+    public BarcodeScanner(Context context, ActivityResultCaller caller, TextInputLayout tvBarCode) {
+        this.context = context;
+        this.caller = caller;
+        this.productRepository = new ProductRepository(context);
+        this.tfBarCode = tvBarCode;
+        launcher = caller.registerForActivityResult(new ScanContract(), this::launcherAddTextResult);
     }
 
     @Override
@@ -42,12 +62,31 @@ public class BarcodeScanner implements Executable {
             return;
         }
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
+        Product productToAdd = null;
 
-        builder.setTitle("Result");
-        builder.setMessage(result.getContents());
-        builder.setPositiveButton("Ok", (dialog, which) -> {});
-        builder.show();
+        for (Product product : productRepository.getAll()) {
+            if (product.getBarcode().equals(result.getContents())) {
+                productToAdd = product;
+            }
+        }
+        if (productToAdd != null) {
+            if (invoice.getProducts().contains(productToAdd)) {
+                Toast.makeText(context, "Product is already in cart!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            invoice.setSubTotal(invoice.getSubTotal() + productToAdd.getPrice() * productToAdd.getQuantity());
+            invoice.addProduct(productToAdd);
+            viewCart.setText(String.valueOf(invoice.getProducts().size()));
+        } else {
+            Toast.makeText(context, "Product is not exist!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void launcherAddTextResult(ScanIntentResult result) {
+        if (result.getContents() == null) {
+            return;
+        }
+        tfBarCode.getEditText().setText(result.getContents());
     }
 
 }

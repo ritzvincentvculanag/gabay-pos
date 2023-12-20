@@ -86,7 +86,7 @@ public class Transaction extends Fragment implements Widget, Action, ProductCart
 
     @Override
     public void initActions() {
-        scanner = new BarcodeScanner(getActivity(), this);
+        scanner = new BarcodeScanner(getActivity(), this, invoice, viewCart);
 
         scan.setOnClickListener(e -> scanner.execute());
         clear.setOnClickListener(e -> {

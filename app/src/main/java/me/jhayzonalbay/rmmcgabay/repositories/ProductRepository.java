@@ -36,6 +36,7 @@ public class ProductRepository implements CrudRepository<Product> {
         values.put(Product.BARCODE, product.getBarcode());
         values.put(Product.PRICE, product.getPrice());
         values.put(Product.CATEGORY, product.getCategory().getId());
+        values.put(Product.QUANTITY, product.getQuantity());
 
         long productId = db.insert("Product", null, values);
         product.setId((int) productId);
@@ -57,6 +58,7 @@ public class ProductRepository implements CrudRepository<Product> {
         values.put(Product.BARCODE, product.getBarcode());
         values.put(Product.PRICE, product.getPrice());
         values.put(Product.CATEGORY, product.getCategory().getId());
+        values.put(Product.QUANTITY, product.getQuantity());
 
         MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context);
 
@@ -114,9 +116,10 @@ public class ProductRepository implements CrudRepository<Product> {
             String description = cursor.getString(cursor.getColumnIndexOrThrow(Product.DESCRIPTION));
             String barcode = cursor.getString(cursor.getColumnIndexOrThrow(Product.BARCODE));
             double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Product.PRICE));
+            int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(Product.QUANTITY));
 
             Category category = categoryRepository.getCategory((int) categoryId);
-            Product product = new Product(name, description, barcode, price, category);
+            Product product = new Product(name, description, barcode, price, category, quantity);
             product.setId((int) id);
             products.add(product);
         }
@@ -147,9 +150,9 @@ public class ProductRepository implements CrudRepository<Product> {
             String description = cursor.getString(cursor.getColumnIndexOrThrow(Product.DESCRIPTION));
             String barcode = cursor.getString(cursor.getColumnIndexOrThrow(Product.BARCODE));
             double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Product.PRICE));
-
+            int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(Product.QUANTITY));
             Category category = categoryRepository.getCategory((int) categoryId);
-            Product product = new Product(name, description, barcode, price, category);
+            Product product = new Product(name, description, barcode, price, category, quantity);
             product.setId((int) id);
             products.add(product);
         }

@@ -73,9 +73,11 @@ public class Checkout extends AppCompatActivity implements Widget, Item {
                 subTotal += product.getPrice() * product.getQuantity();
             }
             invoice.setSubTotal(subTotal);
+            invoice.setProducts(products);
 
             Intent intent = new Intent(this, Payment.class);
             intent.putExtra("EXT_INVOICE", invoice);
+
             startActivity(intent);
         });
 
