@@ -43,7 +43,7 @@ public class Account extends AppCompatActivity {
 
         gabay = new Gabay(this.getSharedPreferences("gabay", MODE_PRIVATE));
         fullName.setText(gabay.getString("USER_NAME"));
-        role.setText(gabay.getString("USER_TYPE"));
+        role.setText(gabay.getString("USER_ROLE"));
         Context context = this;
 
         update.setOnClickListener(e -> {
@@ -71,8 +71,6 @@ public class Account extends AppCompatActivity {
 
                         }
                     }).show();
-
-
         });
 
         delete.setOnClickListener(v -> {
