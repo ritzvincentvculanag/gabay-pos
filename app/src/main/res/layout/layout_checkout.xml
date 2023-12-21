@@ -86,15 +86,16 @@
 
     <Button
         android:id="@+id/btn_checkout_remove"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="?attr/colorError"
-        android:text="Remove"
-        app:icon="@drawable/ic_delete"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_checkout_increase"
+        app:icon="@drawable/ix_remove"
+        app:iconTint="?attr/colorOnError"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_checkout_increase" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/divider5"
