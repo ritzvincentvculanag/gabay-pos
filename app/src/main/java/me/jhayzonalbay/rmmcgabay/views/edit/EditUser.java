@@ -3,6 +3,7 @@ package me.jhayzonalbay.rmmcgabay.views.edit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -32,6 +33,7 @@ public class EditUser extends AppCompatActivity implements Widget {
     private TextInputLayout username;
     private TextInputLayout password;
     private TextInputLayout passwordConfirm;
+    private TextInputLayout userTypeContainer;
 
     private AutoCompleteTextView userType;
 
@@ -52,6 +54,7 @@ public class EditUser extends AppCompatActivity implements Widget {
 
     @Override
     public void initWidgets() {
+        userTypeContainer = findViewById(R.id.til_user_usertype);
         firstName = findViewById(R.id.til_user_fname);
         lastName = findViewById(R.id.til_user_lname);
         middleName = findViewById(R.id.til_user_mname);
@@ -82,7 +85,12 @@ public class EditUser extends AppCompatActivity implements Widget {
         password.getEditText().setText(user.getPassword());
         passwordConfirm.getEditText().setText(user.getPassword());
         userType.setText(user.getUserType().getType(), false);
-       // userType.setText(user.getUserType().getType());
+
+        boolean isAdmin = user.getId() == 1;
+        Log.d("RITCHIE", String.valueOf(isAdmin));
+
+        userType.setEnabled(isAdmin);
+        userTypeContainer.setEnabled(isAdmin);
 
         proceed.setText("Update");
         proceed.setOnClickListener(this::proceedUpdateUser);

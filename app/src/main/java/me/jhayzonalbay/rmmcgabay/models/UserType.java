@@ -65,4 +65,12 @@ public class UserType implements Parcelable {
         dest.writeInt(id);
         dest.writeString(type);
     }
+
+    @Override
+    public String toString() {
+        return "UserType{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

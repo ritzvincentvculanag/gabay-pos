@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class Account extends AppCompatActivity {
 
             User user = userRepository.getUser(gabay.getInt("USER_ID"));
             Intent intent = new Intent(this, EditUser.class);
+            Log.d("RITCHIE", user.getUserType().toString());
             intent.putExtra("EXT_USER", user);
             startActivity(intent);
         });
