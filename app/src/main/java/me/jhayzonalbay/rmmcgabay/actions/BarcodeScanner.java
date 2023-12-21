@@ -74,6 +74,7 @@ public class BarcodeScanner implements Executable {
                 Toast.makeText(context, "Product is already in cart!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            productToAdd.setQuantity(1);
             invoice.setSubTotal(invoice.getSubTotal() + productToAdd.getPrice() * productToAdd.getQuantity());
             invoice.addProduct(productToAdd);
             viewCart.setText(String.valueOf(invoice.getProducts().size()));

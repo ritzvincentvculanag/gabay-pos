@@ -81,6 +81,7 @@ public class EditUser extends AppCompatActivity implements Widget {
         username.getEditText().setText(user.getUsername());
         password.getEditText().setText(user.getPassword());
         passwordConfirm.getEditText().setText(user.getPassword());
+        userType.setText(user.getUserType().getType(), false);
        // userType.setText(user.getUserType().getType());
 
         proceed.setText("Update");

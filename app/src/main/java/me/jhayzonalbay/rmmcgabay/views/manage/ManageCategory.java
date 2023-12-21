@@ -68,4 +68,6 @@ public class ManageCategory extends Fragment implements Item {
         repository.delete(categoryToDelete);
         categoryAdapter.notifyDataSetChanged();
     }
+
+
 }

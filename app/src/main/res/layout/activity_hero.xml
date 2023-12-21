@@ -178,6 +178,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_hero_logout"
         android:backgroundTint="?attr/colorError"
         android:layout_width="0dp"
         android:layout_height="200dp"

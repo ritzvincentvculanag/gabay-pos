@@ -5,6 +5,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ public class Hero extends AppCompatActivity {
     private MaterialCardView transactions;
     private MaterialCardView account;
     private MaterialCardView manage;
+    private MaterialCardView logout;
     private Gabay gabay;
 
     @Override
@@ -34,10 +37,13 @@ public class Hero extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero);
 
+        Context context = this;
+
         order = findViewById(R.id.cv_hero_order);
         transactions = findViewById(R.id.cv_hero_transactions);
         account = findViewById(R.id.cv_hero_account);
         manage = findViewById(R.id.cv_hero_manage);
+        logout = findViewById(R.id.cv_hero_logout);
 
         gabay = new Gabay(getSharedPreferences("gabay", MODE_PRIVATE));
 
@@ -57,16 +63,38 @@ public class Hero extends AppCompatActivity {
             startActivity(intent);
         });
 
+        logout.setOnClickListener(e ->{
+            Messenger.showAlertDialog(this, "Logout", "Do you want to logout", "Yes", "No",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            gabay.clear();
+                            Intent goToLogin = new Intent(context, Login.class);
+                            startActivity(goToLogin);
+                            finish();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+
+        });
+
         manage.setOnClickListener(v -> {
 
             if (!gabay.getBool("IS_ADMIN")) {
                 Messenger.showAlertDialog(this, "Access Invalid", "You don't have permission to access this function!", "Ok").show();
-
                 return;
             }
             Intent intent = new Intent(this, Manage.class);
             startActivity(intent);
         });
+
+
+
+
 
     }
 

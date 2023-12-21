@@ -49,7 +49,7 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        scanner = new BarcodeScanner(this, this, invoice, cart);
+
         productRepository = new ProductRepository(this);
         categoryRepository = new CategoryRepository(this);
         invoice = new Invoice();
@@ -60,6 +60,7 @@ public class Order extends AppCompatActivity implements ProductCart, Action {
         scan = findViewById(R.id.fab_order_scan);
         cart = findViewById(R.id.btn_order_cart);
         filter = findViewById(R.id.actv_order_filter);
+        scanner = new BarcodeScanner(this, this, invoice, cart);
         products = findViewById(R.id.rv_order_products);
         products.setAdapter(productAdapter);
         products.setLayoutManager(new GridLayoutManager(this, 2));

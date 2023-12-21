@@ -39,8 +39,8 @@
         <activity
             android:name=".views.edit.EditUser"
             android:exported="false"
-            android:label="Manage user"
-            android:parentActivityName=".views.Manage" />
+                android:label="Manage user"
+                android:parentActivityName=".views.Manage" />
         <activity
             android:name=".views.edit.EditCategory"
             android:exported="false"
