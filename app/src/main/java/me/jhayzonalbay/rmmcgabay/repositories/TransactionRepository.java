@@ -93,7 +93,45 @@ public class TransactionRepository implements CrudRepository<PurchasedItem> {
 
     @Override
     public List<PurchasedItem> getAll() {
-
        return null;
+    }
+
+    public List<PurchasedItem> getAll(int transactionId) {
+        SQLiteDatabase db = Database.getReadableDatabase(context);
+        String[] projection = {
+                PurchasedItem.PRODUCT_ID,
+                PurchasedItem.TRANSACTION_ID,
+                PurchasedItem.QUANTITY
+        };
+
+        String selection = PurchasedItem.TRANSACTION_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(transactionId)};
+
+        Cursor cursor = db.query(
+                "PurchasedItem",
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        List<PurchasedItem> purchasedItems = new ArrayList<>();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                PurchasedItem purchasedItem = new PurchasedItem();
+                purchasedItem.setProductId(cursor.getInt(cursor.getColumnIndexOrThrow(PurchasedItem.PRODUCT_ID)));
+                purchasedItem.setTransactionId(cursor.getInt(cursor.getColumnIndexOrThrow(PurchasedItem.TRANSACTION_ID)));
+                purchasedItem.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(PurchasedItem.QUANTITY)));
+
+                purchasedItems.add(purchasedItem);
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return purchasedItems;
     }
 }
