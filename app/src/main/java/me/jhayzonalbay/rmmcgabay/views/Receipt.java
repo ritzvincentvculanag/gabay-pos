@@ -1,11 +1,14 @@
 package me.jhayzonalbay.rmmcgabay.views;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -52,5 +55,13 @@ public class Receipt extends AppCompatActivity {
         items = findViewById(R.id.rv_receipt_items);
         items.setAdapter(purchasedItemAdapter);
         items.setLayoutManager(new LinearLayoutManager(this));
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Toast.makeText(Receipt.this, "Thank you for purchasing!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 }
