@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import me.jhayzonalbay.rmmcgabay.R;
@@ -71,11 +72,13 @@ public class Payment extends AppCompatActivity {
             return;
         }
 
-        Intent goToHero = new Intent(this, Hero.class);
+        Intent gotToReceipt = new Intent(this, Receipt.class);
+        invoice.setUserId(gabay.getInt("USER_ID"));
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             invoice.setTransactionDate(LocalDate.now());
         }
-        invoice.setUserId(gabay.getInt("USER_ID"));
+
         Invoice newInvoice = invoiceRepository.insert(invoice);
         newInvoice.getProducts().forEach(product -> {
             PurchasedItem purchasedItem = new PurchasedItem();
@@ -86,7 +89,8 @@ public class Payment extends AppCompatActivity {
             transactionRepository.insert(purchasedItem);
         });
 
-        startActivity(goToHero);
+        gotToReceipt.putExtra("EXT_INVOICE", invoice);
+        startActivity(gotToReceipt);
         finish();
     }
 

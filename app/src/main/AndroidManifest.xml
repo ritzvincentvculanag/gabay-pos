@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,10 +15,15 @@
         android:theme="@style/Theme.RmmcGabay"
         tools:targetApi="31">
         <activity
+            android:label="Receipt"
             android:parentActivityName=".views.Hero"
-            android:label="Transaction History"
-            android:name=".views.History"
+            android:name=".views.Receipt"
             android:exported="false" />
+        <activity
+            android:name=".views.History"
+            android:exported="false"
+            android:label="Transaction History"
+            android:parentActivityName=".views.Hero" />
         <activity
             android:name=".views.Account"
             android:exported="false"
@@ -39,8 +45,8 @@
         <activity
             android:name=".views.edit.EditUser"
             android:exported="false"
-                android:label="Manage user"
-                android:parentActivityName=".views.Manage" />
+            android:label="Manage user"
+            android:parentActivityName=".views.Manage" />
         <activity
             android:name=".views.edit.EditCategory"
             android:exported="false"
